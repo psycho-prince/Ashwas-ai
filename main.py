@@ -36,6 +36,39 @@ async def index(request: Request):
     # Correct signature for Starlette 1.3.x on Render
     return templates.TemplateResponse(request, "index.html", {"app_name": "Ashwas AI"})
 
+@app.get("/api/health")
+async def health():
+    api_key = (
+        os.environ.get("GEMINI_API_KEY") or
+        os.environ.get("GEMINI_KEY") or
+        os.environ.get("GOOGLE_API_KEY") or
+        ""
+    )
+    key_exists = bool(api_key)
+    key_prefix = api_key[:6] + "..." if key_exists and len(api_key) > 6 else "None"
+    
+    # Diagnostics check on core model init
+    model_loaded = False
+    model_name = "None"
+    init_error = "None"
+    try:
+        model = llm._get_model()
+        if model:
+            model_loaded = True
+            model_name = model.model_name
+        else:
+            init_error = "Model returned None (possibly empty key or configure failed)"
+    except Exception as e:
+        init_error = str(e)
+        
+    return {
+        "api_key_configured": key_exists,
+        "api_key_prefix": key_prefix,
+        "model_loaded": model_loaded,
+        "model_name": model_name,
+        "initialization_error": init_error
+    }
+
 @app.post("/api/emergency-script")
 async def emergency_script(req: EmergencyRequest):
     scenario = req.scenario or req.severity or "general distress"

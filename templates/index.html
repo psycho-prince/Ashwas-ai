@@ -57,7 +57,7 @@
     </div>
 
     <!-- Header -->
-    <header class="border-b border-slate-900 bg-slate-950/70 backdrop-blur-md sticky top-0 z-40 relative z-10">
+    <header class="border-b border-slate-900 bg-slate-955/70 backdrop-blur-md sticky top-0 z-40 relative z-10">
         <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
             <div class="flex items-center space-x-3">
                 <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-teal-500 to-sky-500 flex items-center justify-center shadow-lg shadow-teal-500/25">
@@ -69,14 +69,14 @@
                 </div>
             </div>
             <div class="flex items-center space-x-3">
-                <!-- Multilingual Support Indicator -->
+                <!-- Voice Feedback Toggle Indicator -->
+                <button onclick="toggleVoiceOutput()" id="voiceToggleBtn" class="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold bg-teal-500/10 text-teal-400 border border-teal-500/20 shadow-inner cursor-pointer">
+                    <i id="voiceToggleIcon" class="fa-solid fa-volume-high mr-1.5 text-xs"></i>
+                    <span id="voiceToggleText">Voice Out: ON</span>
+                </button>
                 <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold bg-sky-500/10 text-sky-450 border border-sky-500/20 shadow-inner">
                     <i class="fa-solid fa-language mr-1.5 text-xs"></i>
                     മലയാളം / EN / 40+
-                </span>
-                <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-teal-500/10 text-teal-400 border border-teal-500/20">
-                    <span class="w-1.5 h-1.5 mr-2 rounded-full bg-teal-450 animate-pulse"></span>
-                    Active
                 </span>
             </div>
         </div>
@@ -101,7 +101,7 @@
                 </button>
             </nav>
 
-            <!-- Zero-Typing Grounding Panel (Always visible for crisis interventions) -->
+            <!-- Zero-Typing Grounding Panel -->
             <section class="bg-slate-900/40 border border-slate-900 rounded-2xl p-5 backdrop-blur-md shadow-xl">
                 <div class="flex items-center space-x-2.5 mb-2">
                     <i class="fa-solid fa-kit-medical text-rose-455 text-lg"></i>
@@ -143,7 +143,7 @@
                 </div>
             </section>
 
-            <!-- Box Breathing Segment (Visible under Mindfulness/Breathing mode) -->
+            <!-- Box Breathing Segment (Mindfulness mode) -->
             <section id="breathingSection" class="bg-slate-900/40 border border-slate-900 rounded-2xl p-5 backdrop-blur-md shadow-xl hidden">
                 <div class="flex items-center justify-between mb-3">
                     <div class="flex items-center space-x-2">
@@ -175,7 +175,7 @@
                 </div>
             </section>
             
-            <!-- Resource Directory Section (Visible under Mindfulness mode) -->
+            <!-- Resource Directory Section (Mindfulness mode) -->
             <section id="guidesSection" class="bg-slate-900/40 border border-slate-900 rounded-2xl p-5 backdrop-blur-md shadow-xl hidden">
                 <div class="flex items-center space-x-2 mb-3">
                     <i class="fa-solid fa-graduation-cap text-teal-450 text-base"></i>
@@ -184,11 +184,11 @@
                 <div class="space-y-3">
                     <div class="p-3 bg-slate-950/30 border border-slate-900 rounded-xl">
                         <h4 class="text-xs font-bold text-slate-200">5-4-3-2-1 Technique</h4>
-                        <p class="text-[10px] text-slate-450 mt-1 leading-relaxed">Name 5 things you see, 4 you feel, 3 you hear, 2 you smell, and 1 you taste. This grounds your senses instantly.</p>
+                        <p class="text-[10px] text-slate-455 mt-1 leading-relaxed">Name 5 things you see, 4 you feel, 3 you hear, 2 you smell, and 1 you taste. This grounds your senses instantly.</p>
                     </div>
                     <div class="p-3 bg-slate-950/30 border border-slate-900 rounded-xl">
                         <h4 class="text-xs font-bold text-slate-200">Overdose Response (Caregivers)</h4>
-                        <p class="text-[10px] text-slate-450 mt-1 leading-relaxed">If un-responsive, call 911 immediately, administer Naloxone/Narcan, lay on side in recovery position.</p>
+                        <p class="text-[10px] text-slate-455 mt-1 leading-relaxed">If unresponsive, call 911 immediately, administer Naloxone/Narcan, lay on side in recovery position.</p>
                     </div>
                 </div>
             </section>
@@ -217,13 +217,13 @@
                     <div class="chat-message mb-2">
                         <div class="glass p-4 inline-block max-w-md rounded-2xl">
                             <p class="text-[10px] text-teal-400 font-bold mb-1 uppercase tracking-widest">Ashwas AI</p>
-                            <p id="welcomeText" class="text-sm leading-relaxed">Welcome to Ashwas AI. I am here as your recovery support companion. Tell me how you are feeling, or log cravings. You can tap quick actions or use voice dictation if typing is difficult. We natively support Malayalam (മലയാളം).</p>
+                            <p id="welcomeText" class="text-sm leading-relaxed font-medium">Welcome to Ashwas AI. I am here as your recovery support companion. Tell me how you are feeling, or log cravings. You can speak out loud through the microphone button or use zero-typing quick replies if typing is difficult. We natively support Malayalam (മലയാളം).</p>
                         </div>
                     </div>
                 </div>
 
                 <!-- Conversational Quick-Replies (Zero Typing) -->
-                <div class="px-4 py-2 bg-slate-950/20 border-t border-slate-900/60 shrink-0">
+                <div class="px-4 py-2 bg-slate-955/20 border-t border-slate-900/60 shrink-0">
                     <span class="block text-[8px] font-extrabold text-slate-500 uppercase tracking-widest mb-1.5">Quick Responses (Zero Typing)</span>
                     <div id="quickRepliesContainer" class="flex space-x-2 overflow-x-auto pb-1.5 scrollbar-thin">
                         <!-- Populated dynamically via JS -->
@@ -233,10 +233,10 @@
                 <!-- Chat Input container -->
                 <div class="p-4 border-t border-slate-900 bg-slate-955/50 backdrop-blur-sm shrink-0">
                     <div class="flex items-center space-x-2 relative">
-                        <input type="text" id="messageInput" onkeydown="if(event.key === 'Enter') sendMessage()" placeholder="How can I assist you? Type here..." class="flex-grow pl-3 pr-10 py-3.5 text-xs md:text-sm rounded-xl bg-slate-900 border border-slate-800 text-slate-100 placeholder-slate-550 focus:outline-none focus:ring-2 focus:ring-teal-500/40 focus:border-teal-500 transition duration-200">
+                        <input type="text" id="messageInput" onkeydown="if(event.key === 'Enter') sendMessage()" placeholder="How can I assist you? Type or tap the mic..." class="flex-grow pl-3 pr-10 py-3.5 text-xs md:text-sm rounded-xl bg-slate-900 border border-slate-800 text-slate-100 placeholder-slate-550 focus:outline-none focus:ring-2 focus:ring-teal-500/40 focus:border-teal-500 transition duration-200">
                         
-                        <!-- Voice Dictation Simulation Button -->
-                        <button onclick="startVoiceSim()" id="voiceBtn" class="absolute right-14 top-1/2 -translate-y-1/2 text-slate-455 hover:text-rose-455 p-2 transition duration-200 cursor-pointer min-h-[36px] min-w-[36px]" aria-label="Simulate Voice Input">
+                        <!-- Voice Dictation microphone button -->
+                        <button onclick="startVoiceSim()" id="voiceBtn" class="absolute right-14 top-1/2 -translate-y-1/2 text-slate-450 hover:text-rose-455 p-2 transition duration-200 cursor-pointer min-h-[36px] min-w-[36px]" aria-label="Mic input">
                             <i class="fa-solid fa-microphone text-base"></i>
                         </button>
                         
@@ -251,8 +251,8 @@
     </main>
 
     <!-- Emergency Support Script Modal -->
-    <div id="emergencyModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md hidden transition-all duration-300">
-        <div class="bg-slate-900 border border-slate-805 rounded-2xl p-6 md:p-8 w-full max-w-lg shadow-2xl relative overflow-hidden">
+    <div id="emergencyModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-955/80 backdrop-blur-md hidden transition-all duration-300">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 md:p-8 w-full max-w-lg shadow-2xl relative overflow-hidden">
             <div class="absolute -top-16 -left-16 w-32 h-32 bg-rose-500/10 rounded-full blur-2xl"></div>
             
             <button onclick="closeEmergency()" class="absolute top-4 right-4 text-slate-400 hover:text-white p-1 text-lg transition duration-200 cursor-pointer" aria-label="Close Emergency Script">
@@ -276,7 +276,7 @@
             
             <!-- Hotline buttons -->
             <div class="grid grid-cols-2 gap-3">
-                <a href="tel:18006624357" class="flex items-center justify-center space-x-2 py-3 bg-slate-950 hover:bg-slate-900 border border-slate-800 rounded-xl text-xs font-bold text-rose-455 hover:text-rose-355 transition duration-205">
+                <a href="tel:18006624357" class="flex items-center justify-center space-x-2 py-3 bg-slate-950 hover:bg-slate-900 border border-slate-800 rounded-xl text-xs font-bold text-rose-400 hover:text-rose-350 transition duration-205">
                     <i class="fa-solid fa-phone"></i>
                     <span>Call Helpline</span>
                 </a>
@@ -289,18 +289,31 @@
     </div>
 
     <!-- Voice Input Language Selector Modal -->
-    <div id="voiceSelectModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md hidden transition-all duration-300">
+    <div id="voiceSelectModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-955/80 backdrop-blur-md hidden transition-all duration-300">
         <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 w-full max-w-sm shadow-2xl relative text-center">
             <i class="fa-solid fa-microphone text-rose-500 text-3xl mb-4 animate-pulse"></i>
-            <h3 class="text-sm font-bold uppercase tracking-wider text-white mb-2">Voice Input Simulation</h3>
-            <p class="text-xs text-slate-400 mb-5">Choose which language voice log to dictate to the GenAI engine:</p>
-            <div class="flex flex-col space-y-2">
-                <button onclick="runVoiceSim('en')" class="w-full py-3 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-xl text-xs transition cursor-pointer">
-                    English: "I feel highly stressed and need support"
+            <h3 class="text-sm font-bold uppercase tracking-wider text-white mb-2">Microphone Input</h3>
+            <p class="text-xs text-slate-400 mb-5">Choose input method. You can talk directly to your microphone, or trigger a pre-recorded test audio:</p>
+            <div class="flex flex-col space-y-2.5">
+                <button onclick="startWebSpeech('en')" class="w-full py-3.5 bg-gradient-to-r from-teal-500 to-sky-500 hover:from-teal-600 hover:to-sky-600 text-white font-bold rounded-xl text-xs transition cursor-pointer flex items-center justify-center space-x-2">
+                    <i class="fa-solid fa-microphone"></i>
+                    <span>Speak Live (English)</span>
                 </button>
-                <button onclick="runVoiceSim('ml')" class="w-full py-3 bg-slate-800 hover:bg-slate-700 text-teal-400 font-bold rounded-xl text-xs transition cursor-pointer">
-                    Malayalam: "എനിക്ക് വളരെ ബുദ്ധിമുട്ടാണ്, സഹായിക്കൂ"
+                <button onclick="startWebSpeech('ml')" class="w-full py-3.5 bg-gradient-to-r from-teal-500 to-sky-500 hover:from-teal-600 hover:to-sky-600 text-white font-bold rounded-xl text-xs transition cursor-pointer flex items-center justify-center space-x-2">
+                    <i class="fa-solid fa-microphone"></i>
+                    <span>Speak Live (Malayalam/മലയാളം)</span>
                 </button>
+                <div class="border-t border-slate-800 my-2 pt-2">
+                    <p class="text-[10px] text-slate-500 uppercase font-extrabold tracking-wider mb-2">Or run pre-recorded test</p>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button onclick="runVoiceSim('en')" class="py-2.5 bg-slate-800 hover:bg-slate-750 text-slate-300 font-bold rounded-xl text-[10px] transition cursor-pointer">
+                            English Demo
+                        </button>
+                        <button onclick="runVoiceSim('ml')" class="py-2.5 bg-slate-800 hover:bg-slate-750 text-teal-400 font-bold rounded-xl text-[10px] transition cursor-pointer">
+                            മലയാളം Demo
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -309,11 +322,11 @@
     <div id="voiceOverlay" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-slate-950/85 hidden transition-all duration-300">
         <div class="flex flex-col items-center space-y-6 text-center">
             <div class="w-24 h-24 rounded-full bg-rose-500 flex items-center justify-center text-white text-3xl shadow-xl shadow-rose-500/30 animate-pulse-listening">
-                <i class="fa-solid fa-microphone"></i>
+                <i class="fa-solid fa-microphone" id="micOverlayIcon"></i>
             </div>
             <div>
-                <h3 class="text-lg font-bold text-white uppercase tracking-wider">Listening to Voice Input</h3>
-                <p class="text-xs text-slate-400 mt-1">Speak clearly. Capturing somatic distress logs...</p>
+                <h3 class="text-lg font-bold text-white uppercase tracking-wider" id="overlayTitle">Capturing somatic voice log</h3>
+                <p class="text-xs text-slate-400 mt-1" id="overlaySub">Speak clearly into your microphone...</p>
             </div>
             <div class="flex space-x-1.5 justify-center py-2">
                 <span class="w-1.5 h-6 bg-rose-400 rounded-full animate-bounce"></span>
@@ -328,6 +341,7 @@
         // Application State
         const userId = "demo_user_" + Math.floor(Math.random() * 1000);
         let currentMode = "recovery_coach"; // recovery_coach, caregiver_support, mindfulness
+        let voiceOutputEnabled = true;
 
         // DOM elements
         const chatMessages = document.getElementById('chatMessages');
@@ -357,6 +371,96 @@
                 "ഒരു കെയർഗിവർ സഹായി എങ്ങനെയാണ്?"
             ]
         };
+
+        // Web Speech Synthesis (Text to Speech - AI voice reply)
+        function speakText(text) {
+            if (!voiceOutputEnabled) return;
+            if ('speechSynthesis' in window) {
+                // Cancel current speech
+                window.speechSynthesis.cancel();
+                
+                // Clean up markdown syntax for cleaner pronunciation
+                const cleanText = text.replace(/[\*#_`~🚨⚠️📍⚡👥🛡️🤝]/g, '');
+                const utterance = new SpeechSynthesisUtterance(cleanText);
+                
+                // Detect Malayalam characters (\u0D00 to \u0D7F)
+                if (/[\u0D00-\u0D7F]/.test(text)) {
+                    utterance.lang = 'ml-IN';
+                } else {
+                    utterance.lang = 'en-US';
+                }
+                
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        // Toggle Voice Output Option
+        function toggleVoiceOutput() {
+            voiceOutputEnabled = !voiceOutputEnabled;
+            const btn = document.getElementById('voiceToggleBtn');
+            const icon = document.getElementById('voiceToggleIcon');
+            const text = document.getElementById('voiceToggleText');
+            
+            if (voiceOutputEnabled) {
+                btn.className = "inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold bg-teal-500/10 text-teal-400 border border-teal-500/20 shadow-inner cursor-pointer";
+                icon.className = "fa-solid fa-volume-high mr-1.5 text-xs";
+                text.innerText = "Voice Out: ON";
+            } else {
+                btn.className = "inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold bg-slate-800 text-slate-400 border border-slate-700 shadow-inner cursor-pointer";
+                icon.className = "fa-solid fa-volume-xmark mr-1.5 text-xs";
+                text.innerText = "Voice Out: OFF";
+                if ('speechSynthesis' in window) {
+                    window.speechSynthesis.cancel();
+                }
+            }
+        }
+
+        // Web Speech Recognition (Speech to Text)
+        let recognition = null;
+        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            recognition = new SpeechRecognition();
+            recognition.continuous = false;
+            recognition.interimResults = false;
+            
+            recognition.onstart = function() {
+                document.getElementById('overlayTitle').innerText = "Listening to Microphone";
+                document.getElementById('overlaySub').innerText = "Speak now. Recording voice input...";
+                document.getElementById('voiceOverlay').classList.remove('hidden');
+            };
+            
+            recognition.onerror = function(event) {
+                console.error("Speech recognition error", event.error);
+                document.getElementById('voiceOverlay').classList.add('hidden');
+                alert("Microphone Error: " + event.error + ". Redirecting to audio simulation.");
+                runVoiceSim('en');
+            };
+            
+            recognition.onend = function() {
+                document.getElementById('voiceOverlay').classList.add('hidden');
+            };
+            
+            recognition.onresult = function(event) {
+                const resultText = event.results[0][0].transcript;
+                messageInput.value = resultText;
+                sendMessage();
+            };
+        }
+
+        function startWebSpeech(lang) {
+            document.getElementById('voiceSelectModal').classList.add('hidden');
+            if (recognition) {
+                recognition.lang = lang === 'ml' ? 'ml-IN' : 'en-US';
+                try {
+                    recognition.start();
+                } catch (e) {
+                    recognition.stop();
+                }
+            } else {
+                alert("Speech recognition is not natively supported in this browser. Running simulation instead.");
+                runVoiceSim(lang);
+            }
+        }
 
         // Render Quick-Reply bubbles
         function renderQuickReplies() {
@@ -407,6 +511,8 @@
                 });
                 const data = await response.json();
                 addMessage('Ashwas AI', data.response);
+                // Speak the response text back to the user
+                speakText(data.response);
             } catch (e) {
                 addMessage('Ashwas AI', 'Sorry, I am having trouble connecting. Please try again.');
             }
@@ -427,16 +533,26 @@
                 });
                 const data = await response.json();
                 content.innerHTML = `<p class="text-xs md:text-sm leading-relaxed">${data.response}</p>`;
+                // Speak the grounding instructions out loud
+                speakText(data.response);
             } catch (e) {
                 content.innerHTML = '<p>Please contact emergency services (911 or 988) immediately.</p>';
             }
         }
 
-        function closeEmergency() { document.getElementById('emergencyModal').classList.add('hidden'); }
+        function closeEmergency() {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+            }
+            document.getElementById('emergencyModal').classList.add('hidden');
+        }
         
         // Mode switching logic
         function switchMode(mode) {
             currentMode = mode;
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+            }
             
             // Reset active button styling
             document.querySelectorAll('.mode-btn').forEach(btn => {
@@ -450,7 +566,7 @@
             if (mode === 'recovery_coach') {
                 chatTitle.innerText = "Recovery Companion Chat";
                 chatModeBadge.innerText = "Individual";
-                welcomeText.innerText = "Welcome to Ashwas AI. I am here as your recovery support companion. Tell me how you are feeling, or log cravings. You can tap quick actions or use voice dictation if typing is difficult. We natively support Malayalam (മലയാളം).";
+                welcomeText.innerText = "Welcome to Ashwas AI. I am here as your recovery support companion. Tell me how you are feeling, or log cravings. You can speak out loud through the microphone button or use zero-typing quick replies if typing is difficult. We natively support Malayalam (മലയാളം).";
                 
                 // Show recovery Quick Triggers
                 quickTriggerContainer.innerHTML = `
@@ -539,6 +655,9 @@
         function runVoiceSim(lang) {
             document.getElementById('voiceSelectModal').classList.add('hidden');
             const overlay = document.getElementById('voiceOverlay');
+            
+            document.getElementById('overlayTitle').innerText = "Capturing somatic voice log";
+            document.getElementById('overlaySub').innerText = "Simulating voice recording output...";
             overlay.classList.remove('hidden');
             
             // Set transcribed text based on language choice

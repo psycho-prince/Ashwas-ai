@@ -1,55 +1,65 @@
-"""
-Ashwas AI 2.0 - Recovery Intelligence Platform
-"""
 import os
 import sys
-import uvicorn
 from fastapi import FastAPI, Request
-from fastapi.responses import HTMLResponse, JSONResponse
-from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from dotenv import load_dotenv
+from pydantic import BaseModel
+from typing import Optional
+from utils import data
+from core import llm
 
-load_dotenv()
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+app = FastAPI(title="Ashwas AI — Recovery & Prevention Platform")
 
-from core.ai_engine import AIEngine
-from core.safety import SafetyGuardrails
-from utils.constants import CRISIS_KEYWORDS
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+app.mount("/static", StaticFiles(directory=os.path.join(BASE_DIR, "static")), name="static")
+templates = Jinja2Templates(directory=os.path.join(BASE_DIR, "templates"))
 
-app = FastAPI()
-app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
+class EmergencyRequest(BaseModel):
+    severity: str
+    note: Optional[str] = ""
 
-app.mount("/static", StaticFiles(directory="static"), name="static")
-templates = Jinja2Templates(directory="templates")
+class CaregiverRequest(BaseModel):
+    relationship: str
+    behavior: str
+    note: Optional[str] = ""
 
-ai_engine = AIEngine(api_key=os.getenv("GEMINI_API_KEY"))
-safety_guardrails = SafetyGuardrails(crisis_keywords=CRISIS_KEYWORDS)
+class ChatMessage(BaseModel):
+    message: str
+    role: str = "self"
 
-@app.get("/", response_class=HTMLResponse)
-async def home(request: Request):
-    return templates.TemplateResponse(request, "index.html", {"request": request})
-
-@app.post("/api/chat")
-@app.post("/api/v1/chat")
-async def chat(request: Request):
-    data = await request.json()
-    message = data.get("message", "")
-    mode = data.get("mode", "recovery_coach")
-    
-    safety = safety_guardrails.analyze_message(message)
-    emergency = safety_guardrails.generate_safe_response(message, safety)
-    if emergency: return JSONResponse(emergency)
-    
-    response = await ai_engine.generate_response(message, mode=mode)
-    return JSONResponse(response)
+@app.get("/")
+async def index(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
 
 @app.post("/api/emergency-script")
-async def emergency_script(request: Request):
-    data = await request.json()
-    response = await ai_engine.generate_response(data.get("scenario", "panic"), mode="emergency")
-    return JSONResponse(response)
+async def emergency_script(req: EmergencyRequest):
+    if req.severity == "overdose":
+        return {"protocol": data.OVERDOSE_PROTOCOL, "contacts": data.CRISIS_CONTACTS}
+    prompt = f"The person is experiencing {req.severity}. Write a 3-sentence grounding script. End with one physical action."
+    script = llm.generate(prompt, llm.FALLBACK_EMERGENCY_SCRIPT)
+    return {"script": script, "contacts": data.CRISIS_CONTACTS}
 
-if __name__ == "__main__":
-    uvicorn.run("main:app", host="0.0.0.0", port=int(os.getenv("PORT", 8000)), reload=True)
+@app.post("/api/caregiver-script")
+async def caregiver_script(req: CaregiverRequest):
+    if req.behavior == "unresponsive":
+        return {"protocol": data.OVERDOSE_PROTOCOL, "contacts": data.CRISIS_CONTACTS}
+    prompt = f"A {req.relationship} is supporting someone who is {req.behavior}. Give 2 example phrases, one 'don't', and a self-care reminder."
+    script = llm.generate(prompt, llm.FALLBACK_CAREGIVER_SCRIPT)
+    return {"script": script, "contacts": data.CRISIS_CONTACTS}
+
+@app.post("/api/chat")
+async def chat(req: ChatMessage):
+    prompt = f"You are a recovery assistant. User said: {req.message}. Reply supportively in 2-4 sentences."
+    reply = llm.generate(prompt, llm.FALLBACK_CHAT_REPLY)
+    return {"reply": reply}
+
+@app.get("/api/resources")
+async def resources(audience: Optional[str] = None):
+    items = data.EDUCATION
+    if audience in ("self", "caregiver"):
+        items = [e for e in items if e["audience"] in (audience, "both")]
+    return {"resources": items}
+
+@app.get("/healthz")
+async def healthz():
+    return {"status": "ok"}

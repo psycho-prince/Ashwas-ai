@@ -3,3 +3,5 @@ uvicorn
 google-generativeai
 pydantic
 httpx
+jinja2
+python-dotenv

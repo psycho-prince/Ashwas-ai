@@ -16,27 +16,21 @@ def _get_model():
         logger.warning("No Gemini API key found in environment variables.")
         return None
         
-    # Attempt loading preferred models sequentially
-    models_to_try = ["gemini-1.5-flash", "gemini-1.5-pro", "gemini-pro", "gemini-1.5-flash-8b"]
-    for model_name in models_to_try:
-        try:
-            genai.configure(api_key=api_key)
-            return genai.GenerativeModel(model_name, system_instruction=SYSTEM_INSTRUCTION)
-        except Exception as e:
-            logger.debug(f"Failed loading model {model_name}: {e}")
-            continue
-            
-    # Final fallback
     try:
+        genai.configure(api_key=api_key)
+        # Use gemini-pro which is universally supported on older generativeai SDK versions
         return genai.GenerativeModel("gemini-pro")
-    except:
+    except Exception as e:
+        logger.error(f"Failed to initialize gemini-pro model: {e}")
         return None
 
 def generate(prompt: str, fallback: str) -> str:
     model = _get_model()
     if not model: return fallback
     try:
-        response = model.generate_content(prompt)
+        # Append system instruction directly to prompt for compatibility
+        full_prompt = f"{SYSTEM_INSTRUCTION}\n\n{prompt}"
+        response = model.generate_content(full_prompt)
         return response.text.strip() if response.text else fallback
     except Exception as e:
         logger.error(f"GenAI generation failed: {e}")

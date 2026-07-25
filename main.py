@@ -15,7 +15,9 @@ app.mount("/static", StaticFiles(directory=os.path.join(BASE_DIR, "static")), na
 templates = Jinja2Templates(directory=os.path.join(BASE_DIR, "templates"))
 
 class EmergencyRequest(BaseModel):
-    severity: str
+    severity: Optional[str] = "distress"
+    scenario: Optional[str] = "distress"
+    user_id: Optional[str] = ""
     note: Optional[str] = ""
 
 class CaregiverRequest(BaseModel):
@@ -25,19 +27,24 @@ class CaregiverRequest(BaseModel):
 
 class ChatMessage(BaseModel):
     message: str
-    role: str = "self"
+    mode: Optional[str] = "recovery_coach"
+    role: Optional[str] = "self"
+    user_id: Optional[str] = ""
 
 @app.get("/")
 async def index(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
+    # Correct signature for Starlette 1.3.x on Render
+    return templates.TemplateResponse(request, "index.html", {"app_name": "Ashwas AI"})
 
 @app.post("/api/emergency-script")
 async def emergency_script(req: EmergencyRequest):
-    if req.severity == "overdose":
-        return {"protocol": data.OVERDOSE_PROTOCOL, "contacts": data.CRISIS_CONTACTS}
-    prompt = f"The person is experiencing {req.severity}. Write a 3-sentence grounding script. End with one physical action."
+    scenario = req.scenario or req.severity or "general distress"
+    prompt = (
+        f"Act as a professional A-CHESS recovery coach. A user is experiencing an acute distress scenario: '{scenario}'. "
+        "Provide a comforting 3-sentence grounding script. End with one physical action."
+    )
     script = llm.generate(prompt, llm.FALLBACK_EMERGENCY_SCRIPT)
-    return {"script": script, "contacts": data.CRISIS_CONTACTS}
+    return {"response": script, "script": script, "contacts": data.CRISIS_CONTACTS}
 
 @app.post("/api/caregiver-script")
 async def caregiver_script(req: CaregiverRequest):
@@ -45,21 +52,32 @@ async def caregiver_script(req: CaregiverRequest):
         return {"protocol": data.OVERDOSE_PROTOCOL, "contacts": data.CRISIS_CONTACTS}
     prompt = f"A {req.relationship} is supporting someone who is {req.behavior}. Give 2 example phrases, one 'don't', and a self-care reminder."
     script = llm.generate(prompt, llm.FALLBACK_CAREGIVER_SCRIPT)
-    return {"script": script, "contacts": data.CRISIS_CONTACTS}
+    return {"response": script, "script": script, "contacts": data.CRISIS_CONTACTS}
 
 @app.post("/api/chat")
 async def chat(req: ChatMessage):
-    prompt = f"You are a recovery assistant. User said: {req.message}. Reply supportively in 2-4 sentences."
+    mode = req.mode or "recovery_coach"
+    
+    # Custom instructions matching mode and multilingual rules
+    system_instruction = (
+        "You are an empathetic, professional A-CHESS recovery coach assisting individuals navigating substance use disorders. "
+        "Keep responses concise (3-4 sentences) and supportive. "
+        "Always respond in the exact same language that the user uses to communicate. If the user writes in Malayalam, respond in Malayalam."
+    )
+    if mode == "caregiver_support":
+        system_instruction = (
+            "You are a caregiver support coach assisting family members of individuals in recovery. "
+            "Provide de-escalation tips and active listening resources. Keep responses concise (3-4 sentences). "
+            "Always respond in the exact same language that the user uses to communicate. If the user writes in Malayalam, respond in Malayalam."
+        )
+        
+    prompt = f"System Instruction: {system_instruction}\nUser message: {req.message}"
     reply = llm.generate(prompt, llm.FALLBACK_CHAT_REPLY)
-    return {"reply": reply}
+    return {"response": reply, "reply": reply}
 
 @app.get("/api/resources")
 async def resources(audience: Optional[str] = None):
     items = data.EDUCATION
     if audience in ("self", "caregiver"):
         items = [e for e in items if e["audience"] in (audience, "both")]
-    return {"resources": items}
-
-@app.get("/healthz")
-async def healthz():
-    return {"status": "ok"}
+    return items

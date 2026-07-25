@@ -7,6 +7,7 @@ from pydantic import BaseModel
 from typing import Optional
 from utils import data
 from core import llm
+import google.generativeai as genai
 
 app = FastAPI(title="Ashwas AI — Recovery & Prevention Platform")
 
@@ -68,6 +69,21 @@ async def health():
         "model_name": model_name,
         "initialization_error": init_error
     }
+
+@app.get("/api/list-models")
+async def list_models():
+    try:
+        api_key = (
+            os.environ.get("GEMINI_API_KEY") or
+            os.environ.get("GEMINI_KEY") or
+            os.environ.get("GOOGLE_API_KEY") or
+            ""
+        )
+        genai.configure(api_key=api_key)
+        models = [m.name for m in genai.list_models()]
+        return {"status": "success", "models": models}
+    except Exception as e:
+        return {"status": "error", "message": str(e)}
 
 @app.get("/api/test-ai")
 async def test_ai():

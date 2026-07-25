@@ -19,7 +19,7 @@ class AIEngine:
     
     def _initialize_model(self):
         try:
-            genai.configure(api_key=self.api_key)
+            if self.api_key: genai.configure(api_key=self.api_key)
             self.model = genai.GenerativeModel("gemini-1.5-flash", safety_settings=SAFETY_CONFIG)
             self.available = True
         except Exception as e:

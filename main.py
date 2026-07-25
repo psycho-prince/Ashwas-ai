@@ -29,7 +29,7 @@ safety_guardrails = SafetyGuardrails(crisis_keywords=CRISIS_KEYWORDS)
 
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
+    return templates.TemplateResponse(request, "index.html", {"request": request})
 
 @app.post("/api/chat")
 @app.post("/api/v1/chat")

@@ -18,11 +18,14 @@ def _get_model():
         
     try:
         genai.configure(api_key=api_key)
-        # Use gemini-pro which is universally supported on older generativeai SDK versions
-        return genai.GenerativeModel("gemini-pro")
+        # Use gemini-2.0-flash which is authorized on this API key
+        return genai.GenerativeModel("gemini-2.0-flash")
     except Exception as e:
-        logger.error(f"Failed to initialize gemini-pro model: {e}")
-        return None
+        logger.error(f"Failed to initialize gemini-2.0-flash model: {e}")
+        try:
+            return genai.GenerativeModel("gemini-flash-latest")
+        except:
+            return None
 
 def generate(prompt: str, fallback: str) -> str:
     model = _get_model()

@@ -1,73 +1,25 @@
-        // Application State
-        const userId = "demo_user_" + Math.floor(Math.random() * 1000);
-        let currentMode = "recovery_coach";
-
-        // DOM elements
-        const chatMessages = document.getElementById('chatMessages');
-        const messageInput = document.getElementById('messageInput');
-
-        // Functions
-        function addMessage(sender, text, isAI = true) {
-            const div = document.createElement('div');
-            div.className = `chat-message mb-4 ${isAI ? '' : 'text-right'}`;
-            div.innerHTML = `
-                <div class="glass p-4 inline-block max-w-md ${isAI ? '' : 'bg-teal-900/50'}">
-                    <p class="text-sm ${isAI ? 'text-teal-400' : 'text-blue-400'} font-semibold mb-1">${sender}</p>
-                    <p>${text}</p>
-                </div>
-            `;
-            chatMessages.appendChild(div);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-
-        async function sendMessage() {
-            const text = messageInput.value.trim();
-            if (!text) return;
-            
-            addMessage('You', text, false);
-            messageInput.value = '';
-            
-            try {
-                const response = await fetch('/api/chat', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({message: text, user_id: userId, mode: currentMode})
-                });
-                const data = await response.json();
-                addMessage('Ashwas AI', data.response);
-            } catch (e) {
-                addMessage('Ashwas AI', 'Sorry, I am having trouble connecting. Please try again.');
-            }
-        }
-
+<!DOCTYPE html>
+<html lang="en">
+<head><script src="https://cdn.tailwindcss.com"></script></head>
+<body class="bg-slate-900 text-white p-4">
+    <h1 class="text-3xl font-bold mb-4">Ashwas AI 2.0</h1>
+    <button onclick="triggerSupport()" class="bg-red-600 w-full py-4 rounded-xl mb-6">🚨 Panic Beacon</button>
+    <div id="response" class="bg-slate-800 p-4 rounded-lg hidden mb-6"></div>
+    <input id="msg" class="w-full p-2 text-black" placeholder="Message...">
+    <button onclick="sendChat()" class="w-full bg-teal-600 mt-2 py-2">Send</button>
+    <div id="chatbox" class="h-64 mt-4 bg-slate-800 p-4 rounded-lg"></div>
+    <script>
         async function triggerSupport() {
-            const modal = document.getElementById('emergencyModal');
-            const content = document.getElementById('emergencyContent');
-            modal.classList.remove('hidden');
-            content.innerHTML = '<p class="text-center text-slate-400">Generating emergency support...</p>';
-            
-            try {
-                const response = await fetch('/api/emergency-script', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({user_id: userId, scenario: "panic", personal_context: {}})
-                });
-                const data = await response.json();
-                content.innerHTML = `<p class="text-xl mb-4">${data.response}</p>`;
-            } catch (e) {
-                content.innerHTML = '<p>Please contact emergency services (911 or 988) immediately.</p>';
-            }
+            const res = await fetch('/api/emergency-script', {method:'POST', body: JSON.stringify({scenario: "panic"})});
+            const data = await res.json();
+            const el = document.getElementById('response');
+            el.innerText = data.response; el.classList.remove('hidden');
         }
-
-        function closeEmergency() { document.getElementById('emergencyModal').classList.add('hidden'); }
-        
-        function switchMode(mode) {
-            currentMode = mode;
-            document.querySelectorAll('.mode-btn').forEach(btn => {
-                btn.classList.remove('active');
-                if(btn.dataset.mode === mode) btn.classList.add('active');
-            });
-            addMessage('Ashwas AI', `Switched to ${mode.replace('_', ' ')} mode.`);
+        async function sendChat() {
+            const msg = document.getElementById('msg').value;
+            const res = await fetch('/api/chat', {method:'POST', body: JSON.stringify({message: msg})});
+            const data = await res.json();
+            document.getElementById('chatbox').innerHTML += '<p>AI: '+data.response+'</p>';
         }
     </script>
 </body>

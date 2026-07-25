@@ -69,6 +69,24 @@ async def health():
         "initialization_error": init_error
     }
 
+@app.get("/api/test-ai")
+async def test_ai():
+    try:
+        model = llm._get_model()
+        if not model:
+            return {"status": "error", "message": "Model could not be initialized"}
+        response = model.generate_content("Hello. Reply in 1 word.")
+        return {
+            "status": "success",
+            "response": response.text.strip() if response.text else "None"
+        }
+    except Exception as e:
+        return {
+            "status": "exception",
+            "exception_type": type(e).__name__,
+            "message": str(e)
+        }
+
 @app.post("/api/emergency-script")
 async def emergency_script(req: EmergencyRequest):
     scenario = req.scenario or req.severity or "general distress"

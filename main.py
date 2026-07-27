@@ -7,7 +7,6 @@ from pydantic import BaseModel
 from typing import Optional
 from utils import data
 from core import llm
-import google.generativeai as genai
 
 app = FastAPI(title="Ashwas AI — Recovery & Prevention Platform")
 
@@ -39,69 +38,7 @@ async def index(request: Request):
 
 @app.get("/api/health")
 async def health():
-    api_key = (
-        os.environ.get("GEMINI_API_KEY") or
-        os.environ.get("GEMINI_KEY") or
-        os.environ.get("GOOGLE_API_KEY") or
-        ""
-    )
-    key_exists = bool(api_key)
-    key_prefix = api_key[:6] + "..." if key_exists and len(api_key) > 6 else "None"
-    
-    # Diagnostics check on core model init
-    model_loaded = False
-    model_name = "None"
-    init_error = "None"
-    try:
-        model = llm._get_model()
-        if model:
-            model_loaded = True
-            model_name = model.model_name
-        else:
-            init_error = "Model returned None (possibly empty key or configure failed)"
-    except Exception as e:
-        init_error = str(e)
-        
-    return {
-        "api_key_configured": key_exists,
-        "api_key_prefix": key_prefix,
-        "model_loaded": model_loaded,
-        "model_name": model_name,
-        "initialization_error": init_error
-    }
-
-@app.get("/api/list-models")
-async def list_models():
-    try:
-        api_key = (
-            os.environ.get("GEMINI_API_KEY") or
-            os.environ.get("GEMINI_KEY") or
-            os.environ.get("GOOGLE_API_KEY") or
-            ""
-        )
-        genai.configure(api_key=api_key)
-        models = [m.name for m in genai.list_models()]
-        return {"status": "success", "models": models}
-    except Exception as e:
-        return {"status": "error", "message": str(e)}
-
-@app.get("/api/test-ai")
-async def test_ai():
-    try:
-        model = llm._get_model()
-        if not model:
-            return {"status": "error", "message": "Model could not be initialized"}
-        response = model.generate_content("Hello. Reply in 1 word.")
-        return {
-            "status": "success",
-            "response": response.text.strip() if response.text else "None"
-        }
-    except Exception as e:
-        return {
-            "status": "exception",
-            "exception_type": type(e).__name__,
-            "message": str(e)
-        }
+    return {"status": "healthy"}
 
 @app.post("/api/emergency-script")
 async def emergency_script(req: EmergencyRequest):

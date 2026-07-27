@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
@@ -48,7 +48,7 @@
         }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col relative overflow-x-hidden selection:bg-teal-500/30 selection:text-teal-200">
+<body class="bg-slate-955 text-slate-100 min-h-screen flex flex-col relative overflow-x-hidden selection:bg-teal-500/30 selection:text-teal-200">
     <!-- Background Glow Orbs -->
     <div class="fixed top-0 left-0 w-full h-full pointer-events-none z-0 overflow-hidden">
         <div class="absolute -top-40 -left-40 w-96 h-96 bg-teal-500/10 rounded-full blur-[120px] opacity-60"></div>
@@ -57,24 +57,24 @@
     </div>
 
     <!-- Header -->
-    <header class="border-b border-slate-900 bg-slate-955/70 backdrop-blur-md sticky top-0 z-40 relative z-10">
-        <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+    <header class="border-b border-slate-900 bg-slate-950/70 backdrop-blur-md sticky top-0 z-40 relative z-10">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
             <div class="flex items-center space-x-3">
                 <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-teal-500 to-sky-500 flex items-center justify-center shadow-lg shadow-teal-500/25">
                     <i class="fa-solid fa-brain text-white text-lg"></i>
                 </div>
                 <div>
-                    <h1 class="text-xl md:text-2xl font-bold tracking-tight bg-gradient-to-r from-teal-400 to-sky-400 bg-clip-text text-transparent">Ashwas AI</h1>
-                    <p class="text-[9px] text-slate-400 font-extrabold tracking-widest uppercase">Recovery & Caregiver Assistant</p>
+                    <h1 class="text-xl md:text-2xl font-extrabold tracking-tight bg-gradient-to-r from-teal-400 to-sky-400 bg-clip-text text-transparent">Ashwas AI</h1>
+                    <p class="text-[9px] text-slate-455 font-extrabold tracking-widest uppercase">Recovery & Caregiver Hub</p>
                 </div>
             </div>
             <div class="flex items-center space-x-3">
-                <!-- Voice Feedback Toggle Indicator -->
+                <!-- Voice feedback toggle button -->
                 <button onclick="toggleVoiceOutput()" id="voiceToggleBtn" class="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold bg-teal-500/10 text-teal-400 border border-teal-500/20 shadow-inner cursor-pointer">
                     <i id="voiceToggleIcon" class="fa-solid fa-volume-high mr-1.5 text-xs"></i>
                     <span id="voiceToggleText">Voice Out: ON</span>
                 </button>
-                <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold bg-sky-500/10 text-sky-450 border border-sky-500/20 shadow-inner">
+                <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold bg-sky-500/10 text-sky-400 border border-sky-500/20 shadow-inner">
                     <i class="fa-solid fa-language mr-1.5 text-xs"></i>
                     മലയാളം / EN / 40+
                 </span>
@@ -82,142 +82,170 @@
         </div>
     </header>
 
-    <!-- Main Content Grid -->
-    <main class="flex-grow max-w-6xl w-full mx-auto px-4 py-6 grid grid-cols-1 lg:grid-cols-12 gap-6 relative z-10 overflow-hidden">
+    <!-- Main Navigation Bar -->
+    <div class="bg-slate-950/45 border-b border-slate-900 sticky top-18 z-35 backdrop-blur-md relative z-10">
+        <div class="max-w-7xl mx-auto px-4 py-2 flex space-x-2 overflow-x-auto scrollbar-thin">
+            <button onclick="switchTab('pulse')" id="tabBtn-pulse" class="nav-tab px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-lg transition duration-200 cursor-pointer text-teal-400 bg-teal-500/10 border border-teal-500/20 flex items-center space-x-2">
+                <i class="fa-solid fa-chart-line"></i>
+                <span>Health Pulse</span>
+            </button>
+            <button onclick="switchTab('coach')" id="tabBtn-coach" class="nav-tab px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-lg transition duration-200 cursor-pointer text-slate-400 hover:text-slate-200 flex items-center space-x-2">
+                <i class="fa-solid fa-circle-user"></i>
+                <span>Recovery Coach</span>
+            </button>
+            <button onclick="switchTab('caregivers')" id="tabBtn-caregivers" class="nav-tab px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-lg transition duration-200 cursor-pointer text-slate-400 hover:text-slate-200 flex items-center space-x-2">
+                <i class="fa-solid fa-users"></i>
+                <span>Caregiver Portal</span>
+            </button>
+            <button onclick="switchTab('mindfulness')" id="tabBtn-mindfulness" class="nav-tab px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-lg transition duration-200 cursor-pointer text-slate-400 hover:text-slate-200 flex items-center space-x-2">
+                <i class="fa-solid fa-wind"></i>
+                <span>Mindfulness</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Workspace Container -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-6 relative z-10 overflow-hidden flex flex-col justify-start">
         
-        <!-- Left Side: Zero-Typing Interventions & Caregiver Actions (5 Columns) -->
-        <div class="lg:col-span-5 space-y-6 flex flex-col justify-start">
-            
-            <!-- Tab Mode Selector -->
-            <nav class="flex space-x-1.5 bg-slate-900/40 p-1.5 rounded-xl border border-slate-900" aria-label="Modes">
-                <button onclick="switchMode('recovery_coach')" id="modeBtn-recovery_coach" class="mode-btn flex-1 py-2.5 rounded-lg text-xs font-bold transition-all duration-300 uppercase tracking-wider text-teal-400 bg-teal-500/10 border border-teal-500/20 cursor-pointer">
-                    <i class="fa-solid fa-circle-user mr-1.5"></i>Recovery
-                </button>
-                <button onclick="switchMode('caregiver_support')" id="modeBtn-caregiver_support" class="mode-btn flex-1 py-2.5 rounded-lg text-xs font-bold transition-all duration-300 uppercase tracking-wider text-slate-400 hover:text-slate-200 cursor-pointer">
-                    <i class="fa-solid fa-users mr-1.5"></i>Caregivers
-                </button>
-                <button onclick="switchMode('mindfulness')" id="modeBtn-mindfulness" class="mode-btn flex-1 py-2.5 rounded-lg text-xs font-bold transition-all duration-300 uppercase tracking-wider text-slate-400 hover:text-slate-200 cursor-pointer">
-                    <i class="fa-solid fa-wind mr-1.5"></i>Breathing
-                </button>
-            </nav>
-
-            <!-- Zero-Typing Grounding Panel -->
-            <section class="bg-slate-900/40 border border-slate-900 rounded-2xl p-5 backdrop-blur-md shadow-xl">
-                <div class="flex items-center space-x-2.5 mb-2">
-                    <i class="fa-solid fa-kit-medical text-rose-455 text-lg"></i>
-                    <h2 class="text-sm font-extrabold uppercase tracking-wider">Zero-Typing Grounding</h2>
-                </div>
-                <p class="text-slate-400 text-xs mb-4">When cognitive load is highest, tap any trigger below to immediately generate custom AI scripts.</p>
-                
-                <!-- Quick Trigger Grid -->
-                <div class="grid grid-cols-2 gap-3" id="quickTriggerContainer">
-                    <!-- Individual Triggers (Shown in Recovery mode) -->
-                    <button onclick="triggerSupport('I am near a high-risk location and feel highly triggered.')" class="trigger-card p-3 rounded-xl border border-slate-800 bg-slate-900/35 hover:bg-slate-800 hover:border-teal-500/30 transition text-left flex flex-col justify-between min-h-[96px] cursor-pointer">
-                        <i class="fa-solid fa-location-dot text-teal-400 text-lg mb-2"></i>
-                        <div>
-                            <h4 class="text-xs font-bold text-slate-100">Location Alert</h4>
-                            <p class="text-[9px] text-slate-500">📍 High-risk place</p>
-                        </div>
-                    </button>
-                    <button onclick="triggerSupport('I am experiencing intense physical cravings right now.')" class="trigger-card p-3 rounded-xl border border-slate-800 bg-slate-900/35 hover:bg-slate-800 hover:border-teal-500/30 transition text-left flex flex-col justify-between min-h-[96px] cursor-pointer">
-                        <i class="fa-solid fa-bolt text-teal-400 text-lg mb-2"></i>
-                        <div>
-                            <h4 class="text-xs font-bold text-slate-100">Physical Craving</h4>
-                            <p class="text-[9px] text-slate-500">⚡ Intense impulse</p>
-                        </div>
-                    </button>
-                    <button onclick="triggerSupport('I am feeling extremely anxious or overwhelmed by panic.')" class="trigger-card p-3 rounded-xl border border-slate-800 bg-slate-900/35 hover:bg-slate-800 hover:border-teal-500/30 transition text-left flex flex-col justify-between min-h-[96px] cursor-pointer">
-                        <i class="fa-solid fa-face-frown-open text-teal-400 text-lg mb-2"></i>
-                        <div>
-                            <h4 class="text-xs font-bold text-slate-100">Anxiety Spike</h4>
-                            <p class="text-[9px] text-slate-500">😰 Panic & stress</p>
-                        </div>
-                    </button>
-                    <button onclick="triggerSupport('I just had a lapse/slip and need supportive, non-judgmental guidance.')" class="trigger-card p-3 rounded-xl border border-slate-800 bg-slate-900/35 hover:bg-slate-800 hover:border-teal-500/30 transition text-left flex flex-col justify-between min-h-[96px] cursor-pointer">
-                        <i class="fa-solid fa-rotate-left text-teal-400 text-lg mb-2"></i>
-                        <div>
-                            <h4 class="text-xs font-bold text-slate-100">Slip Support</h4>
-                            <p class="text-[9px] text-slate-500">🛡️ Recovery reset</p>
-                        </div>
-                    </button>
-                </div>
-            </section>
-
-            <!-- Box Breathing Segment (Mindfulness mode) -->
-            <section id="breathingSection" class="bg-slate-900/40 border border-slate-900 rounded-2xl p-5 backdrop-blur-md shadow-xl hidden">
-                <div class="flex items-center justify-between mb-3">
-                    <div class="flex items-center space-x-2">
-                        <i class="fa-solid fa-wind text-teal-455 text-base"></i>
-                        <h3 class="text-sm font-bold uppercase tracking-wider">Breathing Spacer</h3>
+        <!-- Tab 1: Health Pulse (Daily Check-in & Dashboard tracking) -->
+        <section id="tabContent-pulse" class="tab-pane grid grid-cols-1 lg:grid-cols-12 gap-6 w-full">
+            <!-- Left Side: Check-in Form (5 Columns) -->
+            <div class="lg:col-span-5 space-y-6">
+                <div class="bg-slate-900/40 border border-slate-900 rounded-2xl p-5 backdrop-blur-md shadow-xl">
+                    <div class="flex items-center space-x-2.5 mb-3">
+                        <i class="fa-solid fa-square-check text-teal-400 text-lg"></i>
+                        <h2 class="text-sm font-extrabold uppercase tracking-wider">Daily Check-in Log</h2>
                     </div>
-                    <button onclick="toggleBreathing()" id="breathPlayBtn" class="px-3 py-1.5 text-[10px] font-bold text-teal-400 border border-teal-500/30 hover:border-teal-500 bg-teal-500/10 hover:bg-teal-500/20 rounded-lg transition duration-200 flex items-center space-x-1 cursor-pointer min-h-[28px]">
-                        <i id="breathPlayIcon" class="fa-solid fa-play"></i>
-                        <span id="breathPlayText">Start</span>
-                    </button>
-                </div>
-                
-                <!-- Visual Ring -->
-                <div class="flex flex-col items-center justify-center py-4">
-                    <div class="w-28 h-28 rounded-full border border-slate-800 flex items-center justify-center bg-slate-950/20 relative shadow-inner">
-                        <div id="breathCircle" class="w-12 h-12 rounded-full bg-gradient-to-tr from-teal-500/25 to-sky-500/25 flex items-center justify-center transition-all duration-[4000ms] ease-in-out">
-                            <div class="w-6 h-6 rounded-full bg-teal-450/30 animate-ping absolute"></div>
+                    <p class="text-slate-400 text-xs mb-4">Complete this brief check-in to dynamically predict your Resilience Index score.</p>
+                    
+                    <form id="checkinForm" onsubmit="saveCheckIn(event)" class="space-y-4">
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-2 flex justify-between">
+                                <span>Stress Level</span>
+                                <span id="stressVal" class="text-teal-400">3 / 5</span>
+                            </label>
+                            <input type="range" min="1" max="5" value="3" oninput="document.getElementById('stressVal').innerText = this.value + ' / 5'" name="stress" class="w-full accent-teal-500 bg-slate-950 border border-slate-800 rounded-lg cursor-pointer h-2">
                         </div>
-                        <span id="breathInstruction" class="absolute text-[10px] font-extrabold text-teal-300 tracking-wider uppercase drop-shadow-md">Calm</span>
+                        
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-2 flex justify-between">
+                                <span>Craving Intensity</span>
+                                <span id="cravingVal" class="text-teal-400">2 / 5</span>
+                            </label>
+                            <input type="range" min="1" max="5" value="2" oninput="document.getElementById('cravingVal').innerText = this.value + ' / 5'" name="craving" class="w-full accent-teal-500 bg-slate-950 border border-slate-800 rounded-lg cursor-pointer h-2">
+                        </div>
+
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-2 flex justify-between">
+                                <span>Sleep Quality</span>
+                                <span id="sleepVal" class="text-teal-400">4 / 5</span>
+                            </label>
+                            <input type="range" min="1" max="5" value="4" oninput="document.getElementById('sleepVal').innerText = this.value + ' / 5'" name="sleep" class="w-full accent-teal-500 bg-slate-950 border border-slate-800 rounded-lg cursor-pointer h-2">
+                        </div>
+
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-2">Coping Activities Used Today</label>
+                            <div class="grid grid-cols-2 gap-2 text-[10px] font-medium text-slate-300">
+                                <label class="flex items-center space-x-2 bg-slate-950/40 p-2 rounded-lg border border-slate-900 hover:border-slate-800 cursor-pointer">
+                                    <input type="checkbox" name="activities" value="meditation" class="accent-teal-500">
+                                    <span>Meditation</span>
+                                </label>
+                                <label class="flex items-center space-x-2 bg-slate-950/40 p-2 rounded-lg border border-slate-900 hover:border-slate-800 cursor-pointer">
+                                    <input type="checkbox" name="activities" value="exercise" class="accent-teal-500">
+                                    <span>Exercise</span>
+                                </label>
+                                <label class="flex items-center space-x-2 bg-slate-950/40 p-2 rounded-lg border border-slate-900 hover:border-slate-800 cursor-pointer">
+                                    <input type="checkbox" name="activities" value="friend" class="accent-teal-500">
+                                    <span>Talked to Friend</span>
+                                </label>
+                                <label class="flex items-center space-x-2 bg-slate-950/40 p-2 rounded-lg border border-slate-900 hover:border-slate-800 cursor-pointer">
+                                    <input type="checkbox" name="activities" value="reading" class="accent-teal-500">
+                                    <span>Read Literature</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="w-full py-3 bg-gradient-to-r from-teal-500 to-sky-500 hover:from-teal-600 hover:to-sky-600 text-white font-bold rounded-xl text-xs transition duration-200 cursor-pointer shadow-lg shadow-teal-500/10 active:scale-95 flex items-center justify-center space-x-2">
+                            <i class="fa-solid fa-floppy-disk"></i>
+                            <span>Log Check-in Entry</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Right Side: SVG Resilience progress ring & logs (7 Columns) -->
+            <div class="lg:col-span-7 space-y-6">
+                <!-- SVG Progress Card -->
+                <div class="bg-slate-900/40 border border-slate-900 rounded-2xl p-5 backdrop-blur-md shadow-xl flex flex-col md:flex-row items-center md:items-start justify-between gap-6">
+                    <div class="space-y-3 flex-1">
+                        <div class="flex items-center space-x-2">
+                            <i class="fa-solid fa-shield-halved text-teal-400"></i>
+                            <h3 class="text-sm font-extrabold uppercase tracking-wider">Resilience Index</h3>
+                        </div>
+                        <p class="text-slate-400 text-xs leading-relaxed">Calculated using stress levels, cravings, and active coping logs. Keep your rating above 70% to strengthen recovery barriers.</p>
+                        
+                        <div class="pt-2">
+                            <span class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Action Plan Guidance</span>
+                            <p id="copingGuidance" class="text-xs font-semibold text-teal-300">Log your first entry to generate a personalized recovery action plan.</p>
+                        </div>
                     </div>
                     
-                    <div class="flex space-x-1.5 mt-4" id="breathDots">
-                        <span class="w-2 h-2 rounded-full bg-slate-800 border border-slate-700" id="breathDot-0"></span>
-                        <span class="w-2 h-2 rounded-full bg-slate-800 border border-slate-700" id="breathDot-1"></span>
-                        <span class="w-2 h-2 rounded-full bg-slate-800 border border-slate-700" id="breathDot-2"></span>
-                        <span class="w-2 h-2 rounded-full bg-slate-800 border border-slate-700" id="breathDot-3"></span>
-                    </div>
-                    <span id="breathTimer" class="text-[9px] font-bold text-slate-500 mt-2.5 tracking-wider uppercase">Breathing space inactive</span>
-                </div>
-            </section>
-            
-            <!-- Resource Directory Section (Mindfulness mode) -->
-            <section id="guidesSection" class="bg-slate-900/40 border border-slate-900 rounded-2xl p-5 backdrop-blur-md shadow-xl hidden">
-                <div class="flex items-center space-x-2 mb-3">
-                    <i class="fa-solid fa-graduation-cap text-teal-450 text-base"></i>
-                    <h3 class="text-sm font-bold uppercase tracking-wider">Grounding Resources</h3>
-                </div>
-                <div class="space-y-3">
-                    <div class="p-3 bg-slate-950/30 border border-slate-900 rounded-xl">
-                        <h4 class="text-xs font-bold text-slate-200">5-4-3-2-1 Technique</h4>
-                        <p class="text-[10px] text-slate-455 mt-1 leading-relaxed">Name 5 things you see, 4 you feel, 3 you hear, 2 you smell, and 1 you taste. This grounds your senses instantly.</p>
-                    </div>
-                    <div class="p-3 bg-slate-950/30 border border-slate-900 rounded-xl">
-                        <h4 class="text-xs font-bold text-slate-200">Overdose Response (Caregivers)</h4>
-                        <p class="text-[10px] text-slate-455 mt-1 leading-relaxed">If unresponsive, call 911 immediately, administer Naloxone/Narcan, lay on side in recovery position.</p>
+                    <div class="flex flex-col items-center shrink-0">
+                        <div class="relative w-36 h-36 flex items-center justify-center">
+                            <!-- SVG Circular progress ring -->
+                            <svg class="w-full h-full transform -rotate-90">
+                                <circle cx="72" cy="72" r="54" stroke="rgba(15, 23, 42, 0.5)" stroke-width="10" fill="transparent"/>
+                                <circle id="progressCircle" cx="72" cy="72" r="54" stroke="url(#tealGlow)" stroke-width="10" fill="transparent" stroke-dasharray="339.29" stroke-dashoffset="339.29" stroke-linecap="round" class="transition-all duration-[1000ms] ease-out"/>
+                                <defs>
+                                    <linearGradient id="tealGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stop-color="#14b8a6"/>
+                                        <stop offset="100%" stop-color="#0284c7"/>
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                            <span id="progressText" class="absolute text-2xl font-extrabold text-white drop-shadow-md">0%</span>
+                        </div>
+                        <span class="text-[9px] font-bold text-slate-500 tracking-wider uppercase mt-2">Recovery Barrier strength</span>
                     </div>
                 </div>
-            </section>
-        </div>
 
-        <!-- Right Side: GenAI Chat Workspace (7 Columns) -->
-        <div class="lg:col-span-7 flex flex-col h-[calc(100vh-140px)] min-h-[450px]">
-            
-            <!-- Chat Card Container -->
+                <!-- History log -->
+                <div class="bg-slate-900/40 border border-slate-900 rounded-2xl p-5 backdrop-blur-md shadow-xl">
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="flex items-center space-x-2">
+                            <i class="fa-solid fa-clock-rotate-left text-slate-400"></i>
+                            <h3 class="text-sm font-bold uppercase tracking-wider">Log Entries History</h3>
+                        </div>
+                        <button onclick="clearHistory()" class="text-[10px] font-bold text-rose-455 hover:text-rose-350 transition cursor-pointer">Clear Logs</button>
+                    </div>
+                    <div id="checkinHistory" class="space-y-2 max-h-[160px] overflow-y-auto pr-1">
+                        <!-- Populated dynamically via JS -->
+                        <p class="text-center text-slate-500 text-xs py-4">No logged entries found. Log your daily pulse above.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tab 2: Recovery Coach (GenAI Chat Workspace) -->
+        <section id="tabContent-coach" class="tab-pane hidden flex-grow flex flex-col h-[calc(100vh-210px)] min-h-[450px] w-full">
             <div class="flex-grow glass rounded-2xl flex flex-col overflow-hidden shadow-2xl relative">
-                
-                <!-- Chat Header / Title -->
+                <!-- Chat Header -->
                 <div class="px-5 py-4 border-b border-slate-900 bg-slate-955/30 flex items-center justify-between shrink-0">
                     <div class="flex items-center space-x-2.5">
                         <div class="w-2.5 h-2.5 rounded-full bg-teal-450 animate-pulse"></div>
-                        <h3 id="chatTitle" class="text-sm font-bold uppercase tracking-wider">Recovery Companion Chat</h3>
+                        <h3 class="text-sm font-bold uppercase tracking-wider">Recovery Companion Chat</h3>
                     </div>
-                    <span id="chatModeBadge" class="text-[9px] font-extrabold uppercase bg-teal-500/10 text-teal-400 border border-teal-500/20 px-2 py-0.5 rounded">
-                        Individual
+                    <span class="text-[9px] font-extrabold uppercase bg-teal-500/10 text-teal-400 border border-teal-500/20 px-2 py-0.5 rounded">
+                        Individual Mode
                     </span>
                 </div>
 
-                <!-- Chat history area -->
+                <!-- Chat history -->
                 <div id="chatMessages" class="flex-grow p-4 md:p-6 overflow-y-auto space-y-4">
-                    <!-- Welcome msg -->
                     <div class="chat-message mb-2">
                         <div class="glass p-4 inline-block max-w-md rounded-2xl">
                             <p class="text-[10px] text-teal-400 font-bold mb-1 uppercase tracking-widest">Ashwas AI</p>
-                            <p id="welcomeText" class="text-sm leading-relaxed font-medium">Welcome to Ashwas AI. I am here as your recovery support companion. Tell me how you are feeling, or log cravings. You can speak out loud through the microphone button or use zero-typing quick replies if typing is difficult. We natively support Malayalam (മലയാളം).</p>
+                            <p class="text-sm leading-relaxed font-medium">Welcome to Ashwas AI. I am here as your recovery support companion. Tell me how you are feeling, or log cravings. You can speak out loud through the microphone button or use zero-typing quick replies if typing is difficult. We natively support Malayalam (മലയാളം).</p>
                         </div>
                     </div>
                 </div>
@@ -247,7 +275,152 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
+
+        <!-- Tab 3: Caregiver Portal -->
+        <section id="tabContent-caregivers" class="tab-pane hidden flex-grow flex flex-col h-[calc(100vh-210px)] min-h-[450px] w-full">
+            <div class="flex-grow glass rounded-2xl flex flex-col overflow-hidden shadow-2xl relative">
+                <!-- Chat Header -->
+                <div class="px-5 py-4 border-b border-slate-900 bg-slate-955/30 flex items-center justify-between shrink-0">
+                    <div class="flex items-center space-x-2.5">
+                        <div class="w-2.5 h-2.5 rounded-full bg-teal-450 animate-pulse"></div>
+                        <h3 class="text-sm font-bold uppercase tracking-wider">Caregiver Support Circle</h3>
+                    </div>
+                    <span class="text-[9px] font-extrabold uppercase bg-teal-500/10 text-teal-400 border border-teal-500/20 px-2 py-0.5 rounded">
+                        Caregiver Mode
+                    </span>
+                </div>
+
+                <!-- Chat history -->
+                <div id="caregiverChatMessages" class="flex-grow p-4 md:p-6 overflow-y-auto space-y-4">
+                    <div class="chat-message mb-2">
+                        <div class="glass p-4 inline-block max-w-md rounded-2xl">
+                            <p class="text-[10px] text-teal-400 font-bold mb-1 uppercase tracking-widest">Ashwas AI</p>
+                            <p class="text-sm leading-relaxed font-medium">Caregiver Portal Active. Ask me how to support your loved one during crisis events, how to check for warning indicators, or strategies to manage your own stress. Malayalam is fully supported.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Conversational Quick-Replies (Caregiver Zero Typing) -->
+                <div class="px-4 py-2 bg-slate-955/20 border-t border-slate-900/60 shrink-0">
+                    <span class="block text-[8px] font-extrabold text-slate-500 uppercase tracking-widest mb-1.5">Quick Responses (Zero Typing)</span>
+                    <div id="caregiverQuickRepliesContainer" class="flex space-x-2 overflow-x-auto pb-1.5 scrollbar-thin">
+                        <!-- Populated dynamically via JS -->
+                    </div>
+                </div>
+
+                <!-- Chat Input container -->
+                <div class="p-4 border-t border-slate-900 bg-slate-955/50 backdrop-blur-sm shrink-0">
+                    <div class="flex items-center space-x-2 relative">
+                        <input type="text" id="caregiverMessageInput" onkeydown="if(event.key === 'Enter') sendCaregiverMessage()" placeholder="Ask caregiver support questions or tap options..." class="flex-grow pl-3 pr-10 py-3.5 text-xs md:text-sm rounded-xl bg-slate-900 border border-slate-800 text-slate-100 placeholder-slate-550 focus:outline-none focus:ring-2 focus:ring-teal-500/40 focus:border-teal-500 transition duration-200">
+                        
+                        <!-- Voice Dictation microphone button -->
+                        <button onclick="startVoiceSim()" id="caregiverVoiceBtn" class="absolute right-14 top-1/2 -translate-y-1/2 text-slate-455 hover:text-rose-455 p-2 transition duration-200 cursor-pointer min-h-[36px] min-w-[36px]" aria-label="Mic input">
+                            <i class="fa-solid fa-microphone text-base"></i>
+                        </button>
+                        
+                        <!-- Send Button -->
+                        <button onclick="sendCaregiverMessage()" class="bg-gradient-to-r from-teal-500 to-sky-500 hover:from-teal-600 hover:to-sky-600 text-white p-3.5 rounded-xl transition duration-200 active:scale-95 shadow-md shadow-teal-500/10 flex items-center justify-center cursor-pointer min-w-[48px] min-h-[48px]" aria-label="Send message">
+                            <i class="fa-solid fa-paper-plane text-sm"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tab 4: Mindfulness (Breathing & Somatic Space) -->
+        <section id="tabContent-mindfulness" class="tab-pane hidden grid grid-cols-1 lg:grid-cols-12 gap-6 w-full">
+            <!-- Box Breathing spacer (6 Columns) -->
+            <div class="lg:col-span-6 space-y-6">
+                <div class="bg-slate-900/40 border border-slate-900 rounded-2xl p-5 backdrop-blur-md shadow-xl">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center space-x-2">
+                            <i class="fa-solid fa-wind text-teal-400 text-lg"></i>
+                            <h3 class="text-sm font-extrabold uppercase tracking-wider">Breathing Spacer</h3>
+                        </div>
+                        <button onclick="toggleBreathing()" id="breathPlayBtn" class="px-3.5 py-2 text-[10px] font-bold text-teal-400 border border-teal-500/30 hover:border-teal-500 bg-teal-500/10 hover:bg-teal-500/20 rounded-lg transition duration-200 flex items-center space-x-1 cursor-pointer min-h-[32px]">
+                            <i id="breathPlayIcon" class="fa-solid fa-play"></i>
+                            <span id="breathPlayText">Start Pacing</span>
+                        </button>
+                    </div>
+                    <p class="text-slate-400 text-xs mb-6">Paced box-breathing cycle manager based on A-CHESS clinical recovery support recommendations.</p>
+                    
+                    <!-- Visual Ring -->
+                    <div class="flex flex-col items-center justify-center py-6">
+                        <div class="w-36 h-36 rounded-full border border-slate-800 flex items-center justify-center bg-slate-950/20 relative shadow-inner">
+                            <div id="breathCircle" class="w-16 h-16 rounded-full bg-gradient-to-tr from-teal-500/25 to-sky-500/25 flex items-center justify-center transition-all duration-[4000ms] ease-in-out">
+                                <div class="w-8 h-8 rounded-full bg-teal-400/30 animate-ping absolute"></div>
+                            </div>
+                            <span id="breathInstruction" class="absolute text-[11px] font-extrabold text-teal-300 tracking-wider uppercase drop-shadow-md">Calm</span>
+                        </div>
+                        
+                        <div class="flex space-x-2.5 mt-6" id="breathDots">
+                            <span class="w-2.5 h-2.5 rounded-full bg-slate-800 border border-slate-700" id="breathDot-0"></span>
+                            <span class="w-2.5 h-2.5 rounded-full bg-slate-800 border border-slate-700" id="breathDot-1"></span>
+                            <span class="w-2.5 h-2.5 rounded-full bg-slate-800 border border-slate-700" id="breathDot-2"></span>
+                            <span class="w-2.5 h-2.5 rounded-full bg-slate-800 border border-slate-700" id="breathDot-3"></span>
+                        </div>
+                        <span id="breathTimer" class="text-[10px] font-bold text-slate-500 mt-4 tracking-wider uppercase">Breathing space inactive</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grounding Guides (6 Columns) -->
+            <div class="lg:col-span-6 space-y-6">
+                <div class="bg-slate-900/40 border border-slate-900 rounded-2xl p-5 backdrop-blur-md shadow-xl">
+                    <div class="flex items-center space-x-2.5 mb-3">
+                        <i class="fa-solid fa-graduation-cap text-teal-400 text-lg"></i>
+                        <h3 class="text-sm font-bold uppercase tracking-wider">Grounding Resources</h3>
+                    </div>
+                    <p class="text-slate-400 text-xs mb-4">Leverage these cognitive/somatic grounding tools to interrupt intense trigger spikes:</p>
+                    
+                    <div class="space-y-4">
+                        <div class="p-3 bg-slate-950/40 border border-slate-900 rounded-xl hover:border-slate-800 transition">
+                            <h4 class="text-xs font-bold text-slate-200">5-4-3-2-1 Technique (Somatic)</h4>
+                            <p class="text-[10px] text-slate-450 mt-1 leading-relaxed">Name 5 things you see, 4 you feel, 3 you hear, 2 you smell, and 1 you taste. This immediately anchors you back to the present room.</p>
+                        </div>
+                        <div class="p-3 bg-slate-950/40 border border-slate-900 rounded-xl hover:border-slate-800 transition">
+                            <h4 class="text-xs font-bold text-slate-200">HALT Craving Checklist</h4>
+                            <p class="text-[10px] text-slate-450 mt-1 leading-relaxed">Ask yourself: Am I Hungry, Angry, Lonely, or Tired? Satisfying these basic physiological vulnerabilities frequently diffuses acute cravings.</p>
+                        </div>
+                        <div class="p-3 bg-slate-950/40 border border-slate-900 rounded-xl hover:border-slate-800 transition">
+                            <h4 class="text-xs font-bold text-slate-200">Overdose Protocol (Caregiver Emergency)</h4>
+                            <p class="text-[10px] text-slate-455 mt-1 leading-relaxed font-semibold text-rose-400">If unresponsive, call 911 immediately, administer Naloxone/Narcan, and lay on side in recovery position.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Zero-Typing Emergency Trigger Panel (Always visible at the bottom for quick safety alerts) -->
+        <section class="mt-6 bg-slate-900/20 border border-slate-900 rounded-2xl p-4 backdrop-blur-md shadow-lg shrink-0 relative z-10">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div class="flex items-center space-x-3">
+                    <div class="w-9 h-9 rounded-lg bg-rose-500/10 border border-rose-500/20 flex items-center justify-center text-rose-455">
+                        <i class="fa-solid fa-triangle-exclamation text-base"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-bold text-white uppercase tracking-wider">Acute Distress Grounding</h4>
+                        <p class="text-[10px] text-slate-450">Tap any trigger below to immediately retrieve custom AI calming scripts with zero typing.</p>
+                    </div>
+                </div>
+                <!-- Trigger Buttons -->
+                <div class="flex flex-wrap gap-2" id="crisisTriggersBar">
+                    <button onclick="triggerSupport('I am near a high-risk location and feel highly triggered.')" class="px-3.5 py-2 bg-slate-950 hover:bg-slate-900 border border-slate-800 hover:border-rose-500/30 rounded-xl text-[10px] font-bold text-rose-400 transition cursor-pointer">
+                        📍 Location Trigger
+                    </button>
+                    <button onclick="triggerSupport('I am experiencing intense physical cravings right now.')" class="px-3.5 py-2 bg-slate-950 hover:bg-slate-900 border border-slate-800 hover:border-rose-500/30 rounded-xl text-[10px] font-bold text-rose-400 transition cursor-pointer">
+                        ⚡ Intense Craving
+                    </button>
+                    <button onclick="triggerSupport('I am feeling extremely anxious or overwhelmed by panic.')" class="px-3.5 py-2 bg-slate-950 hover:bg-slate-900 border border-slate-800 hover:border-rose-500/30 rounded-xl text-[10px] font-bold text-rose-400 transition cursor-pointer">
+                        😰 Anxiety Spike
+                    </button>
+                    <button onclick="triggerSupport('My loved one is highly anxious or unresponsive. I need de-escalation tips.')" class="px-3.5 py-2 bg-slate-950 hover:bg-slate-900 border border-slate-800 hover:border-rose-500/30 rounded-xl text-[10px] font-bold text-teal-400 transition cursor-pointer">
+                        👥 Caregiver Alert
+                    </button>
+                </div>
+            </div>
+        </section>
     </main>
 
     <!-- Emergency Support Script Modal -->
@@ -276,7 +449,7 @@
             
             <!-- Hotline buttons -->
             <div class="grid grid-cols-2 gap-3">
-                <a href="tel:18006624357" class="flex items-center justify-center space-x-2 py-3 bg-slate-950 hover:bg-slate-900 border border-slate-800 rounded-xl text-xs font-bold text-rose-400 hover:text-rose-350 transition duration-205">
+                <a href="tel:18006624357" class="flex items-center justify-center space-x-2 py-3 bg-slate-950 hover:bg-slate-900 border border-slate-800 rounded-xl text-xs font-bold text-rose-455 hover:text-rose-355 transition duration-205">
                     <i class="fa-solid fa-phone"></i>
                     <span>Call Helpline</span>
                 </a>
@@ -319,7 +492,7 @@
     </div>
 
     <!-- Voice Simulation Pulse Dialog (Overlay) -->
-    <div id="voiceOverlay" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-slate-950/85 hidden transition-all duration-300">
+    <div id="voiceOverlay" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-slate-955/85 hidden transition-all duration-300">
         <div class="flex flex-col items-center space-y-6 text-center">
             <div class="w-24 h-24 rounded-full bg-rose-500 flex items-center justify-center text-white text-3xl shadow-xl shadow-rose-500/30 animate-pulse-listening">
                 <i class="fa-solid fa-microphone" id="micOverlayIcon"></i>
@@ -340,30 +513,32 @@
     <script>
         // Application State
         const userId = "demo_user_" + Math.floor(Math.random() * 1000);
-        let currentMode = "recovery_coach"; // recovery_coach, caregiver_support, mindfulness
+        let activeTab = "pulse"; // pulse, coach, caregivers, mindfulness
         let voiceOutputEnabled = true;
+        let checkinLogs = [];
 
         // DOM elements
         const chatMessages = document.getElementById('chatMessages');
         const messageInput = document.getElementById('messageInput');
-        const chatTitle = document.getElementById('chatTitle');
-        const chatModeBadge = document.getElementById('chatModeBadge');
-        const welcomeText = document.getElementById('welcomeText');
-        const quickTriggerContainer = document.getElementById('quickTriggerContainer');
-        const breathingSection = document.getElementById('breathingSection');
-        const guidesSection = document.getElementById('guidesSection');
+        const caregiverChatMessages = document.getElementById('caregiverChatMessages');
+        const caregiverMessageInput = document.getElementById('caregiverMessageInput');
         const quickRepliesContainer = document.getElementById('quickRepliesContainer');
+        const caregiverQuickRepliesContainer = document.getElementById('caregiverQuickRepliesContainer');
+        const checkinHistory = document.getElementById('checkinHistory');
+        const progressCircle = document.getElementById('progressCircle');
+        const progressText = document.getElementById('progressText');
+        const copingGuidance = document.getElementById('copingGuidance');
 
-        // Predefined Quick-Reply Configurations (Zero Typing)
+        // Predefined Quick Replies
         const quickReplies = {
-            recovery_coach: [
+            coach: [
                 "Suggest a healthy distraction",
                 "Give me a cognitive coping card",
                 "Reframe my craving thoughts",
                 "What is my next safety step?",
                 "മലയാളത്തിൽ ഒരു സഹായം വേണം"
             ],
-            caregiver_support: [
+            caregivers: [
                 "How do I help during a panic attack?",
                 "What are warning signs of overdose?",
                 "Suggest caregiver self-care resources",
@@ -372,29 +547,67 @@
             ]
         };
 
-        // Web Speech Synthesis (Text to Speech - AI voice reply)
+        // Tab Navigation
+        function switchTab(tabId) {
+            activeTab = tabId;
+            
+            // Toggle tab views
+            document.querySelectorAll('.tab-pane').forEach(el => el.classList.add('hidden'));
+            const activeContent = document.getElementById('tabContent-' + tabId);
+            if (activeContent) activeContent.classList.remove('hidden');
+
+            // Reset active styles on tabs
+            document.querySelectorAll('.nav-tab').forEach(btn => {
+                btn.className = "nav-tab px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-lg transition duration-200 cursor-pointer text-slate-400 hover:text-slate-200 flex items-center space-x-2";
+            });
+            const activeBtn = document.getElementById('tabBtn-' + tabId);
+            if (activeBtn) {
+                activeBtn.className = "nav-tab px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-lg transition duration-200 cursor-pointer text-teal-400 bg-teal-500/10 border border-teal-500/20 flex items-center space-x-2";
+            }
+
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+            }
+
+            renderQuickReplies();
+        }
+
+        // Render Quick-Reply bubbles
+        function renderQuickReplies() {
+            const replies = quickReplies[activeTab] || [];
+            const container = activeTab === 'caregivers' ? caregiverQuickRepliesContainer : quickRepliesContainer;
+            
+            if (replies.length === 0) return;
+            
+            container.innerHTML = replies.map(text => `
+                <button onclick="handleQuickReply('${text}')" class="px-3.5 py-2 rounded-full border border-teal-500/20 hover:border-teal-500/50 bg-teal-500/5 hover:bg-teal-500/15 text-[11px] font-semibold text-teal-300 transition duration-200 shrink-0 whitespace-nowrap cursor-pointer min-h-[32px]">
+                    ${text}
+                </button>
+            `).join('');
+        }
+
+        function handleQuickReply(text) {
+            if (activeTab === 'caregivers') {
+                caregiverMessageInput.value = text;
+                sendCaregiverMessage();
+            } else {
+                messageInput.value = text;
+                sendMessage();
+            }
+        }
+
+        // Text to Speech
         function speakText(text) {
             if (!voiceOutputEnabled) return;
             if ('speechSynthesis' in window) {
-                // Cancel current speech
                 window.speechSynthesis.cancel();
-                
-                // Clean up markdown syntax for cleaner pronunciation
                 const cleanText = text.replace(/[\*#_`~🚨⚠️📍⚡👥🛡️🤝]/g, '');
                 const utterance = new SpeechSynthesisUtterance(cleanText);
-                
-                // Detect Malayalam characters (\u0D00 to \u0D7F)
-                if (/[\u0D00-\u0D7F]/.test(text)) {
-                    utterance.lang = 'ml-IN';
-                } else {
-                    utterance.lang = 'en-US';
-                }
-                
+                utterance.lang = /[\u0D00-\u0D7F]/.test(text) ? 'ml-IN' : 'en-US';
                 window.speechSynthesis.speak(utterance);
             }
         }
 
-        // Toggle Voice Output Option
         function toggleVoiceOutput() {
             voiceOutputEnabled = !voiceOutputEnabled;
             const btn = document.getElementById('voiceToggleBtn');
@@ -409,13 +622,11 @@
                 btn.className = "inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold bg-slate-800 text-slate-400 border border-slate-700 shadow-inner cursor-pointer";
                 icon.className = "fa-solid fa-volume-xmark mr-1.5 text-xs";
                 text.innerText = "Voice Out: OFF";
-                if ('speechSynthesis' in window) {
-                    window.speechSynthesis.cancel();
-                }
+                if ('speechSynthesis' in window) window.speechSynthesis.cancel();
             }
         }
 
-        // Web Speech Recognition (Speech to Text)
+        // Speech Recognition (Speech to Text)
         let recognition = null;
         if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -432,7 +643,7 @@
             recognition.onerror = function(event) {
                 console.error("Speech recognition error", event.error);
                 document.getElementById('voiceOverlay').classList.add('hidden');
-                alert("Microphone Error: " + event.error + ". Redirecting to audio simulation.");
+                alert("Microphone access failed. Running simulation instead.");
                 runVoiceSim('en');
             };
             
@@ -442,9 +653,18 @@
             
             recognition.onresult = function(event) {
                 const resultText = event.results[0][0].transcript;
-                messageInput.value = resultText;
-                sendMessage();
+                if (activeTab === 'caregivers') {
+                    caregiverMessageInput.value = resultText;
+                    sendCaregiverMessage();
+                } else {
+                    messageInput.value = resultText;
+                    sendMessage();
+                }
             };
+        }
+
+        function startVoiceSim() {
+            document.getElementById('voiceSelectModal').classList.remove('hidden');
         }
 
         function startWebSpeech(lang) {
@@ -462,28 +682,31 @@
             }
         }
 
-        // Render Quick-Reply bubbles
-        function renderQuickReplies() {
-            const replies = quickReplies[currentMode] || [];
-            if (replies.length === 0) {
-                quickRepliesContainer.parentElement.classList.add('hidden');
-                return;
-            }
-            quickRepliesContainer.parentElement.classList.remove('hidden');
-            quickRepliesContainer.innerHTML = replies.map(text => `
-                <button onclick="handleQuickReply('${text}')" class="px-3.5 py-2 rounded-full border border-teal-500/20 hover:border-teal-500/50 bg-teal-500/5 hover:bg-teal-500/15 text-[11px] font-semibold text-teal-300 transition duration-200 shrink-0 whitespace-nowrap cursor-pointer min-h-[32px]">
-                    ${text}
-                </button>
-            `).join('');
+        function runVoiceSim(lang) {
+            document.getElementById('voiceSelectModal').classList.add('hidden');
+            const overlay = document.getElementById('voiceOverlay');
+            
+            document.getElementById('overlayTitle').innerText = "Capturing somatic voice log";
+            document.getElementById('overlaySub').innerText = "Simulating voice recording output...";
+            overlay.classList.remove('hidden');
+            
+            let text = lang === 'ml' ? "എനിക്ക് വളരെ ബുദ്ധിമുട്ടാണ്, ദയവായി എന്നെ സഹായിക്കൂ." : "I am feeling highly stressed and need immediate recovery guidance.";
+            
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+                if (activeTab === 'caregivers') {
+                    caregiverMessageInput.value = text;
+                    sendCaregiverMessage();
+                } else {
+                    messageInput.value = text;
+                    sendMessage();
+                }
+            }, 2000);
         }
 
-        function handleQuickReply(text) {
-            messageInput.value = text;
-            sendMessage();
-        }
-
-        // Functions
-        function addMessage(sender, text, isAI = true) {
+        // Messaging Channels
+        function addMessage(sender, text, isAI = true, channel = 'chatMessages') {
+            const container = document.getElementById(channel);
             const div = document.createElement('div');
             div.className = `chat-message mb-4 ${isAI ? '' : 'text-right'}`;
             div.innerHTML = `
@@ -492,29 +715,49 @@
                     <p class="text-xs md:text-sm leading-relaxed font-medium">${text}</p>
                 </div>
             `;
-            chatMessages.appendChild(div);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
+            container.appendChild(div);
+            container.scrollTop = container.scrollHeight;
         }
 
         async function sendMessage() {
             const text = messageInput.value.trim();
             if (!text) return;
             
-            addMessage('You', text, false);
+            addMessage('You', text, false, 'chatMessages');
             messageInput.value = '';
             
             try {
                 const response = await fetch('/api/chat', {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({message: text, user_id: userId, mode: currentMode})
+                    body: JSON.stringify({message: text, user_id: userId, mode: 'recovery_coach'})
                 });
                 const data = await response.json();
-                addMessage('Ashwas AI', data.response);
-                // Speak the response text back to the user
+                addMessage('Ashwas AI', data.response, true, 'chatMessages');
                 speakText(data.response);
             } catch (e) {
-                addMessage('Ashwas AI', 'Sorry, I am having trouble connecting. Please try again.');
+                addMessage('Ashwas AI', 'Sorry, I am having trouble connecting. Please try again.', true, 'chatMessages');
+            }
+        }
+
+        async function sendCaregiverMessage() {
+            const text = caregiverMessageInput.value.trim();
+            if (!text) return;
+            
+            addMessage('You', text, false, 'caregiverChatMessages');
+            caregiverMessageInput.value = '';
+            
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({message: text, user_id: userId, mode: 'caregiver_support'})
+                });
+                const data = await response.json();
+                addMessage('Ashwas AI', data.response, true, 'caregiverChatMessages');
+                speakText(data.response);
+            } catch (e) {
+                addMessage('Ashwas AI', 'Sorry, I am having trouble connecting.', true, 'caregiverChatMessages');
             }
         }
 
@@ -533,7 +776,6 @@
                 });
                 const data = await response.json();
                 content.innerHTML = `<p class="text-xs md:text-sm leading-relaxed">${data.response}</p>`;
-                // Speak the grounding instructions out loud
                 speakText(data.response);
             } catch (e) {
                 content.innerHTML = '<p>Please contact emergency services (911 or 988) immediately.</p>';
@@ -541,138 +783,101 @@
         }
 
         function closeEmergency() {
-            if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel();
-            }
+            if ('speechSynthesis' in window) window.speechSynthesis.cancel();
             document.getElementById('emergencyModal').classList.add('hidden');
         }
-        
-        // Mode switching logic
-        function switchMode(mode) {
-            currentMode = mode;
-            if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel();
-            }
-            
-            // Reset active button styling
-            document.querySelectorAll('.mode-btn').forEach(btn => {
-                btn.className = "mode-btn flex-1 py-2.5 rounded-lg text-xs font-bold transition-all duration-300 uppercase tracking-wider text-slate-455 hover:text-slate-200 cursor-pointer";
-            });
-            
-            const activeBtn = document.getElementById('modeBtn-' + mode);
-            activeBtn.className = "mode-btn flex-1 py-2.5 rounded-lg text-xs font-bold transition-all duration-300 uppercase tracking-wider text-teal-400 bg-teal-500/10 border border-teal-500/20 cursor-pointer";
 
-            // Update UI elements based on selected mode
-            if (mode === 'recovery_coach') {
-                chatTitle.innerText = "Recovery Companion Chat";
-                chatModeBadge.innerText = "Individual";
-                welcomeText.innerText = "Welcome to Ashwas AI. I am here as your recovery support companion. Tell me how you are feeling, or log cravings. You can speak out loud through the microphone button or use zero-typing quick replies if typing is difficult. We natively support Malayalam (മലയാളം).";
-                
-                // Show recovery Quick Triggers
-                quickTriggerContainer.innerHTML = `
-                    <button onclick="triggerSupport('I am near a high-risk location and feel highly triggered.')" class="trigger-card p-3 rounded-xl border border-slate-800 bg-slate-900/35 hover:bg-slate-850 hover:border-teal-500/30 transition text-left flex flex-col justify-between min-h-[96px] cursor-pointer">
-                        <i class="fa-solid fa-location-dot text-teal-400 text-lg mb-2"></i>
-                        <div>
-                            <h4 class="text-xs font-bold text-slate-100">Location Alert</h4>
-                            <p class="text-[9px] text-slate-500">📍 High-risk place</p>
-                        </div>
-                    </button>
-                    <button onclick="triggerSupport('I am experiencing intense physical cravings right now.')" class="trigger-card p-3 rounded-xl border border-slate-800 bg-slate-900/35 hover:bg-slate-850 hover:border-teal-500/30 transition text-left flex flex-col justify-between min-h-[96px] cursor-pointer">
-                        <i class="fa-solid fa-bolt text-teal-400 text-lg mb-2"></i>
-                        <div>
-                            <h4 class="text-xs font-bold text-slate-100">Physical Craving</h4>
-                            <p class="text-[9px] text-slate-500">⚡ Intense impulse</p>
-                        </div>
-                    </button>
-                    <button onclick="triggerSupport('I am feeling extremely anxious or overwhelmed by panic.')" class="trigger-card p-3 rounded-xl border border-slate-800 bg-slate-900/35 hover:bg-slate-850 hover:border-teal-500/30 transition text-left flex flex-col justify-between min-h-[96px] cursor-pointer">
-                        <i class="fa-solid fa-face-frown-open text-teal-400 text-lg mb-2"></i>
-                        <div>
-                            <h4 class="text-xs font-bold text-slate-100">Anxiety Spike</h4>
-                            <p class="text-[9px] text-slate-500">😰 Panic & stress</p>
-                        </div>
-                    </button>
-                    <button onclick="triggerSupport('I just had a lapse/slip and need supportive, non-judgmental guidance.')" class="trigger-card p-3 rounded-xl border border-slate-800 bg-slate-900/35 hover:bg-slate-850 hover:border-teal-500/30 transition text-left flex flex-col justify-between min-h-[96px] cursor-pointer">
-                        <i class="fa-solid fa-rotate-left text-teal-400 text-lg mb-2"></i>
-                        <div>
-                            <h4 class="text-xs font-bold text-slate-100">Slip Support</h4>
-                            <p class="text-[9px] text-slate-500">🛡️ Recovery reset</p>
-                        </div>
-                    </button>
-                `;
-                breathingSection.classList.add('hidden');
-                guidesSection.classList.add('hidden');
-            } else if (mode === 'caregiver_support') {
-                chatTitle.innerText = "Caregiver Support Circle";
-                chatModeBadge.innerText = "Caregiver";
-                welcomeText.innerText = "Caregiver Portal Active. Ask me how to support your loved one during crisis events, how to check for warning indicators, or strategies to manage your own stress. Malayalam is fully supported.";
-                
-                // Show Caregiver Quick Triggers
-                quickTriggerContainer.innerHTML = `
-                    <button onclick="triggerSupport('My loved one is experiencing a severe craving. I need active de-escalation tips.')" class="trigger-card p-3 rounded-xl border border-slate-800 bg-slate-900/35 hover:bg-slate-800 hover:border-teal-500/30 transition text-left flex flex-col justify-between min-h-[96px] cursor-pointer">
-                        <i class="fa-solid fa-hands-holding-child text-teal-400 text-lg mb-2"></i>
-                        <div>
-                            <h4 class="text-xs font-bold text-slate-100">Loved One Craving</h4>
-                            <p class="text-[9px] text-slate-500">🤝 Help them de-escalate</p>
-                        </div>
-                    </button>
-                    <button onclick="triggerSupport('My loved one is highly hostile or anxious. I need tools to diffuse the situation.')" class="trigger-card p-3 rounded-xl border border-slate-800 bg-slate-900/35 hover:bg-slate-800 hover:border-teal-500/30 transition text-left flex flex-col justify-between min-h-[96px] cursor-pointer">
-                        <i class="fa-solid fa-shield text-teal-400 text-lg mb-2"></i>
-                        <div>
-                            <h4 class="text-xs font-bold text-slate-100">Crisis Diffusion</h4>
-                            <p class="text-[9px] text-slate-500">🛡️ Calm the storm</p>
-                        </div>
-                    </button>
-                    <button onclick="triggerSupport('I am a caregiver feeling severely burned out and exhausted.')" class="trigger-card p-3 rounded-xl border border-slate-800 bg-slate-900/35 hover:bg-slate-800 hover:border-teal-500/30 transition text-left flex flex-col justify-between min-h-[96px] cursor-pointer">
-                        <i class="fa-solid fa-heart-pulse text-teal-400 text-lg mb-2"></i>
-                        <div>
-                            <h4 class="text-xs font-bold text-slate-100">Caregiver Relief</h4>
-                            <p class="text-[9px] text-slate-500">❤️ Handle self burnout</p>
-                        </div>
-                    </button>
-                    <button onclick="triggerSupport('I suspect my loved one is under the influence or overdosing. What do I do?')" class="trigger-card p-3 rounded-xl border border-slate-800 bg-slate-900/35 hover:bg-slate-850 hover:border-rose-500/30 transition text-left flex flex-col justify-between min-h-[96px] cursor-pointer">
-                        <i class="fa-solid fa-triangle-exclamation text-rose-455 text-lg mb-2"></i>
-                        <div>
-                            <h4 class="text-xs font-bold text-slate-100">Overdose Alert</h4>
-                            <p class="text-[9px] text-rose-450">⚠️ Emergency checks</p>
-                        </div>
-                    </button>
-                `;
-                breathingSection.classList.add('hidden');
-                guidesSection.classList.add('hidden');
-            } else if (mode === 'mindfulness') {
-                breathingSection.classList.remove('hidden');
-                guidesSection.classList.remove('hidden');
-            }
+        // Health Pulse & LocalStorage Logging
+        function saveCheckIn(event) {
+            event.preventDefault();
+            const form = document.getElementById('checkinForm');
+            const formData = new FormData(form);
             
-            renderQuickReplies();
+            const stress = parseInt(formData.get('stress'));
+            const craving = parseInt(formData.get('craving'));
+            const sleep = parseInt(formData.get('sleep'));
+            const activities = formData.getAll('activities');
+            
+            // Dynamic Resilience Index Calculation Formula
+            // High sleep, low cravings, low stress and high active activities increase index
+            const stressImpact = (6 - stress) * 15; // Max 75
+            const cravingImpact = (6 - craving) * 10; // Max 50
+            const sleepImpact = sleep * 10; // Max 50
+            const activityImpact = activities.length * 15; // Max 60
+            
+            const rawScore = stressImpact + cravingImpact + sleepImpact + activityImpact;
+            const resilienceScore = Math.min(100, Math.max(0, Math.round((rawScore / 235) * 100)));
+            
+            const entry = {
+                id: Date.now(),
+                timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                date: new Date().toLocaleDateString(),
+                stress,
+                craving,
+                sleep,
+                score: resilienceScore,
+                activityCount: activities.length
+            };
+            
+            checkinLogs.unshift(entry);
+            localStorage.setItem('ashwas_logs', JSON.stringify(checkinLogs));
+            
+            updateDashboard();
         }
 
-        // Voice Simulation dictation
-        function startVoiceSim() {
-            document.getElementById('voiceSelectModal').classList.remove('hidden');
-        }
-
-        function runVoiceSim(lang) {
-            document.getElementById('voiceSelectModal').classList.add('hidden');
-            const overlay = document.getElementById('voiceOverlay');
+        function updateDashboard() {
+            if (checkinLogs.length === 0) {
+                checkinHistory.innerHTML = '<p class="text-center text-slate-500 text-xs py-4">No logged entries found. Log your daily pulse above.</p>';
+                progressCircle.style.strokeDashoffset = 339.29;
+                progressText.innerText = "0%";
+                copingGuidance.innerText = "Log your first entry to generate a personalized recovery action plan.";
+                return;
+            }
             
-            document.getElementById('overlayTitle').innerText = "Capturing somatic voice log";
-            document.getElementById('overlaySub').innerText = "Simulating voice recording output...";
-            overlay.classList.remove('hidden');
+            const latest = checkinLogs[0];
             
-            // Set transcribed text based on language choice
-            let text = "";
-            if (lang === 'ml') {
-                text = "എനിക്ക് വളരെ ബുദ്ധിമുട്ടാണ്, ദയവായി എന്നെ സഹായിക്കൂ.";
+            // Update SVG Ring
+            const circumference = 339.29;
+            const offset = circumference - (latest.score / 100) * circumference;
+            progressCircle.style.strokeDashoffset = offset;
+            progressText.innerText = latest.score + "%";
+            
+            // Set dynamic action plan text based on safety bounds
+            if (latest.score >= 75) {
+                copingGuidance.innerText = "🛡️ Excellent barrier strength! Your coping mechanisms are solid. Maintain present activity pacing.";
+                copingGuidance.className = "text-xs font-semibold text-emerald-400";
+            } else if (latest.score >= 50) {
+                copingGuidance.innerText = "⚠️ Moderate safety risk. Cravings or stress are elevated. Try to trigger a box breathing spacer session.";
+                copingGuidance.className = "text-xs font-semibold text-amber-400";
             } else {
-                text = "I am feeling highly stressed and need immediate recovery guidance.";
+                copingGuidance.innerText = "🚨 High Relapse Hazard! Please contact your caregiver support circle or start somatic grounding techniques immediately.";
+                copingGuidance.className = "text-xs font-semibold text-rose-450";
             }
             
-            setTimeout(() => {
-                overlay.classList.add('hidden');
-                messageInput.value = text;
-                sendMessage();
-            }, 2000);
+            // Render list
+            checkinHistory.innerHTML = checkinLogs.map(log => `
+                <div class="p-3 bg-slate-950/50 border border-slate-900 rounded-xl flex items-center justify-between text-xs transition hover:border-slate-800">
+                    <div class="space-y-1">
+                        <span class="text-[9px] font-bold text-slate-500 uppercase">${log.date} @ ${log.timestamp}</span>
+                        <div class="flex space-x-3 text-slate-400 text-[10px]">
+                            <span>Stress: ${log.stress}/5</span>
+                            <span>Craving: ${log.craving}/5</span>
+                            <span>Sleep: ${log.sleep}/5</span>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <span class="px-2.5 py-1 rounded bg-teal-500/10 text-teal-400 font-bold border border-teal-500/20">${log.score}% Score</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function clearHistory() {
+            if (confirm("Are you sure you want to clear your local recovery tracking logs?")) {
+                checkinLogs = [];
+                localStorage.removeItem('ashwas_logs');
+                updateDashboard();
+            }
         }
 
         // Box Breathing Logic
@@ -692,7 +897,7 @@
             isBreathingActive = !isBreathingActive;
             
             if (isBreathingActive) {
-                playText.innerText = "Stop";
+                playText.innerText = "Stop Pacing";
                 playIcon.className = "fa-solid fa-stop";
                 playBtn.classList.remove('text-teal-400', 'border-teal-500/30', 'bg-teal-500/10');
                 playBtn.classList.add('text-rose-400', 'border-rose-500/30', 'bg-rose-500/10');
@@ -713,18 +918,18 @@
                 }, 1000);
             } else {
                 clearInterval(breathingInterval);
-                playText.innerText = "Start";
+                playText.innerText = "Start Pacing";
                 playIcon.className = "fa-solid fa-play";
                 playBtn.classList.add('text-teal-400', 'border-teal-500/30', 'bg-teal-500/10');
                 playBtn.classList.remove('text-rose-400', 'border-rose-500/30', 'bg-rose-500/10');
                 
                 circle.style.transform = 'scale(1)';
-                circle.className = "w-12 h-12 rounded-full bg-gradient-to-tr from-teal-500/25 to-sky-500/25 flex items-center justify-center transition-all duration-[4000ms] ease-in-out";
+                circle.className = "w-16 h-16 rounded-full bg-gradient-to-tr from-teal-500/25 to-sky-500/25 flex items-center justify-center transition-all duration-[4000ms] ease-in-out";
                 instruction.innerText = "Calm";
                 timer.innerText = "Breathing space inactive";
                 
                 document.querySelectorAll('#breathDots span').forEach(dot => {
-                    dot.className = "w-2 h-2 rounded-full bg-slate-800 border border-slate-700";
+                    dot.className = "w-2.5 h-2.5 rounded-full bg-slate-800 border border-slate-700";
                 });
             }
         }
@@ -747,38 +952,43 @@
             
             document.querySelectorAll('#breathDots span').forEach((dot, idx) => {
                 if (idx === breathingStep) {
-                    dot.className = "w-2 h-2 rounded-full bg-teal-400 border border-teal-500 transition duration-300 shadow-md shadow-teal-500/40";
+                    dot.className = "w-2.5 h-2.5 rounded-full bg-teal-450 border border-teal-500 transition duration-300 shadow-md shadow-teal-500/40";
                 } else {
-                    dot.className = "w-2 h-2 rounded-full bg-slate-800 border border-slate-700";
+                    dot.className = "w-2.5 h-2.5 rounded-full bg-slate-800 border border-slate-700";
                 }
             });
             
             switch (breathingStep) {
                 case 0:
-                    circle.style.transform = 'scale(1.8)';
-                    circle.className = "w-12 h-12 rounded-full bg-gradient-to-tr from-teal-400 to-sky-400 flex items-center justify-center transition-all duration-[4000ms] ease-in-out shadow-lg shadow-teal-500/30";
+                    circle.style.transform = 'scale(1.6)';
+                    circle.className = "w-16 h-16 rounded-full bg-gradient-to-tr from-teal-400 to-sky-400 flex items-center justify-center transition-all duration-[4000ms] ease-in-out shadow-lg shadow-teal-500/30";
                     instruction.innerText = "Inhale";
                     break;
                 case 1:
-                    circle.style.transform = 'scale(1.8)';
-                    circle.className = "w-12 h-12 rounded-full bg-gradient-to-tr from-teal-500 to-sky-500 flex items-center justify-center transition-all duration-[4000ms] ease-in-out shadow-lg shadow-sky-500/30";
+                    circle.style.transform = 'scale(1.6)';
+                    circle.className = "w-16 h-16 rounded-full bg-gradient-to-tr from-teal-500 to-sky-500 flex items-center justify-center transition-all duration-[4000ms] ease-in-out shadow-lg shadow-sky-500/30";
                     instruction.innerText = "Hold";
                     break;
                 case 2:
                     circle.style.transform = 'scale(1.0)';
-                    circle.className = "w-12 h-12 rounded-full bg-gradient-to-tr from-teal-500/30 to-sky-500/30 flex items-center justify-center transition-all duration-[4000ms] ease-in-out";
+                    circle.className = "w-16 h-16 rounded-full bg-gradient-to-tr from-teal-500/30 to-sky-500/30 flex items-center justify-center transition-all duration-[4000ms] ease-in-out";
                     instruction.innerText = "Exhale";
                     break;
                 case 3:
                     circle.style.transform = 'scale(1.0)';
-                    circle.className = "w-12 h-12 rounded-full bg-gradient-to-tr from-teal-500/10 to-sky-500/10 flex items-center justify-center transition-all duration-[4000ms] ease-in-out";
+                    circle.className = "w-16 h-16 rounded-full bg-gradient-to-tr from-teal-500/10 to-sky-500/10 flex items-center justify-center transition-all duration-[4000ms] ease-in-out";
                     instruction.innerText = "Hold";
                     break;
             }
         }
 
-        // Init
+        // Init & Local Storage Load
         window.addEventListener('DOMContentLoaded', () => {
+            const rawLogs = localStorage.getItem('ashwas_logs');
+            if (rawLogs) {
+                checkinLogs = JSON.parse(rawLogs);
+            }
+            updateDashboard();
             renderQuickReplies();
         });
     </script>
